@@ -1,4 +1,6 @@
-import {getElement} from './elementFactory.js';
+import getElement from './elementFactory.js';
+import showScreen from './render';
+import greetingScreenElement from './greeting';
 
 const introTemplateString =
   `<div id="main" class="central__content">
@@ -18,5 +20,9 @@ const introTemplateString =
     </div>
   </footer>`;
 
-const introElement = getElement(introTemplateString);
-export default introElement;
+const introScreenElement = getElement(introTemplateString);
+introScreenElement.querySelector('.intro__asterisk').addEventListener('click', function () {
+  showScreen(greetingScreenElement);
+});
+
+export default introScreenElement;

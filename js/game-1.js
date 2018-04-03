@@ -1,4 +1,6 @@
-import {getElement} from './elementFactory.js';
+import getElement from './elementFactory.js';
+import game2ScreenElement from "./game-2.js";
+import showScreen from './render.js';
 
 const game1TemplateString =
   `<header class="header">
@@ -67,6 +69,6 @@ const game1TemplateString =
     </div>
   </footer>`;
 
-const game1Element = getElement(game1TemplateString);
+const game1ScreenElement = getElement(game1TemplateString);
 export default game1Element;
 

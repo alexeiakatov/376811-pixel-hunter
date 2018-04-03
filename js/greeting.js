@@ -1,4 +1,6 @@
-import {getElement} from './elementFactory.js';
+import getElement from './elementFactory.js';
+import rulesScreenElement from "./rules";
+import showScreen from './render';
 
 const greetingTemplateString =
   `<div class="greeting central--blur">
@@ -26,5 +28,9 @@ const greetingTemplateString =
   </footer>`;
 
 
-const greetingElement = getElement(greetingTemplateString);
-export default greetingElement;
+const greetingScreenElement = getElement(greetingTemplateString);
+greetingScreenElement.querySelector('.greeting__continue').addEventListener('click', function () {
+  showScreen(rulesScreenElement);
+});
+
+export default greetingScreenElement;

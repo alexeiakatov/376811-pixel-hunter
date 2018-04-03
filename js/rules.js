@@ -1,4 +1,6 @@
-import {getElement} from './elementFactory.js';
+import getElement from './elementFactory.js';
+import game1ScreenElement from "./game-1.js";
+import showScreen from './render.js';
 
 const rulesTemplateString =
   `<header class="header">
@@ -35,5 +37,22 @@ const rulesTemplateString =
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>`;
 
-const rulesElement = getElement(rulesTemplateString);
-export default rulesElement;
+const rulesScreenElement = getElement(rulesTemplateString);
+const rulesButtonElement = rulesScreenElement.querySelector('.rules__button');
+const rulesInputElement = rulesScreenElement.querySelector('.rules__input');
+
+rulesButtonElement.disabled = true;
+
+rulesButtonElement.addEventListener('click', function () {
+  showScreen(game1ScreenElement);
+});
+
+rulesInputElement.addEventListener('input', function () {
+  if (rulesInputElement.value && rulesInputElement.value.length > 0){
+    rulesButtonElement.disabled = false;
+  } else {
+    rulesButtonElement.disabled = true;
+  }
+});
+
+export default rulesScreenElement;
