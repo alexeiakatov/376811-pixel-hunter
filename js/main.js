@@ -39,22 +39,26 @@ const showScreen = (screenNumber) => {
   }
 };
 
-const switchScreen = (evt) => {
-  evt.preventDefault();
+document.addEventListener(`keydown`, function (evt) {
   if (evt.keyCode === ALT) {
+    evt.preventDefault();
     altPressed = true;
   }
+  // to LEFT
+  if (altPressed && evt.keyCode === LEFT_ARROW) {
+    evt.preventDefault();
+    if (currentScreenNumber > 0) {
+      showScreen(--currentScreenNumber);
+    }
+  }
   // to RIGHT
-  if (altPressed && evt.keyCode === RIGHT_ARROW && currentScreenNumber < gameScreens.length - 1) {
-    showScreen(++currentScreenNumber);
+  if (altPressed && evt.keyCode === RIGHT_ARROW) {
+    evt.preventDefault();
+    if (currentScreenNumber < gameScreens.length - 1) {
+      showScreen(++currentScreenNumber);
+    }
   }
-  //  to LEFT
-  if (altPressed && evt.keyCode === LEFT_ARROW && currentScreenNumber > 0) {
-    showScreen(--currentScreenNumber);
-  }
-};
-
-document.addEventListener(`keydown`, switchScreen);
+});
 
 document.addEventListener(`keyup`, function (evt) {
   if (evt.keyCode === ALT) {
