@@ -5,7 +5,6 @@ const ALT = 18;
 let altPressed = false;
 let currentScreenNumber = 1;
 
-const gameScreens = [];
 const centralElement = document.body.querySelector(`.central`);
 
 const greetingTemplateElement = document.getElementById(`greeting`);
@@ -23,41 +22,39 @@ for (let i = 0; i < centralElement.children.length; i++) {
   mainTemplateElement.content.appendChild(element);
 }
 
-gameScreens.push(mainTemplateElement);
-gameScreens.push(greetingTemplateElement);
-gameScreens.push(rulesTemplateElement);
-gameScreens.push(game1TemplateElement);
-gameScreens.push(game2TemplateElement);
-gameScreens.push(game3TemplateElement);
-gameScreens.push(statsTemplateElement);
+const gameScreens = [
+  mainTemplateElement,
+  greetingTemplateElement,
+  rulesTemplateElement,
+  game1TemplateElement,
+  game2TemplateElement,
+  game3TemplateElement,
+  statsTemplateElement
+];
 
-let showScreen = function (screenNumber) {
+const showScreen = (screenNumber) => {
   if (screenNumber < gameScreens.length && screenNumber > -1) {
     centralElement.innerHTML = ``;
     centralElement.appendChild(gameScreens[screenNumber].content.cloneNode(true));
   }
 };
 
-let switchScreen = function (keyCode) {
-  if (keyCode === RIGHT_ARROW && currentScreenNumber < gameScreens.length - 1) {
+const switchScreen = (evt) => {
+  evt.preventDefault();
+  if (evt.keyCode === ALT) {
+    altPressed = true;
+  }
+  // to RIGHT
+  if (altPressed && evt.keyCode === RIGHT_ARROW && currentScreenNumber < gameScreens.length - 1) {
     showScreen(++currentScreenNumber);
-  } else if (keyCode === LEFT_ARROW && currentScreenNumber > 0) {
+  }
+  //  to LEFT
+  if (altPressed && evt.keyCode === LEFT_ARROW && currentScreenNumber > 0) {
     showScreen(--currentScreenNumber);
   }
 };
 
-document.addEventListener(`keydown`, function (evt) {
-  if (evt.keyCode === ALT) {
-    evt.preventDefault();
-    altPressed = true;
-  }
-
-  if (altPressed && (evt.keyCode === LEFT_ARROW || evt.keyCode === RIGHT_ARROW)) {
-    evt.preventDefault();
-    switchScreen(evt.keyCode);
-  }
-
-});
+document.addEventListener(`keydown`, switchScreen);
 
 document.addEventListener(`keyup`, function (evt) {
   if (evt.keyCode === ALT) {
