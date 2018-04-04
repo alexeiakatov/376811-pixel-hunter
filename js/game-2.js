@@ -1,4 +1,8 @@
-import {getElement} from './elementFactory.js';
+import getElement from './elementFactory.js';
+import game3ScreenElement from './game-3.js';
+import showScreen from './render.js';
+import greetingScreenElement from "./greeting";
+
 
 const game2TemplateString =
   `<header class="header">
@@ -56,7 +60,22 @@ const game2TemplateString =
     </div>
   </footer>`;
 
-const game2Element = getElement(game2TemplateString);
-export default game2Element;
+const game2ScreenElement = getElement(game2TemplateString);
+const form = game2ScreenElement.querySelector(`.game__content`);
+const inputs = form.elements[`question1`];
+
+inputs.forEach((inputElement) => {
+  inputElement.addEventListener(`change`, (evt) => {
+    if (evt.target.checked) {
+      showScreen(game3ScreenElement);
+    }
+  });
+});
+
+backButtonElement.addEventListener('click', () => {
+  showScreen(greetingScreenElement);
+});
+
+export default game2ScreenElement;
 
 

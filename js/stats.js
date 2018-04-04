@@ -1,4 +1,6 @@
-import { getElement } from './elementFactory.js';
+import getElement from './elementFactory.js';
+import showScreen from "./render";
+import greetingScreenElement from "./greeting";
 
 const statsTemplateString =
   `<header class="header">
@@ -119,6 +121,10 @@ const statsTemplateString =
       <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
     </div>
   </footer>`;
+
+backButtonElement.addEventListener('click', () => {
+  showScreen(greetingScreenElement);
+});
 
 const statsElement = getElement(statsTemplateString);
 export default statsElement;

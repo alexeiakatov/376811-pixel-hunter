@@ -29,7 +29,7 @@ const greetingTemplateString =
 
 
 const greetingScreenElement = getElement(greetingTemplateString);
-greetingScreenElement.querySelector('.greeting__continue').addEventListener('click', function () {
+greetingScreenElement.querySelector(`.greeting__continue`).addEventListener(`click`, function () {
   showScreen(rulesScreenElement);
 });
 

@@ -21,7 +21,7 @@ const introTemplateString =
   </footer>`;
 
 const introScreenElement = getElement(introTemplateString);
-introScreenElement.querySelector('.intro__asterisk').addEventListener('click', function () {
+introScreenElement.querySelector(`.intro__asterisk`).addEventListener(`click`, function () {
   showScreen(greetingScreenElement);
 });
 

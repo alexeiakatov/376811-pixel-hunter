@@ -1,6 +1,8 @@
 import getElement from './elementFactory.js';
 import game2ScreenElement from "./game-2.js";
 import showScreen from './render.js';
+import greetingScreenElement from "./greeting";
+import rulesScreenElement from "./rules";
 
 const game1TemplateString =
   `<header class="header">
@@ -70,5 +72,64 @@ const game1TemplateString =
   </footer>`;
 
 const game1ScreenElement = getElement(game1TemplateString);
-export default game1Element;
+const backButtonElement = rulesScreenElement.querySelector(`.header .back`);
+const form = game1ScreenElement.querySelector(`.game__content`);
+
+
+const radioButtonsQuestion1 = form.elements[`question1`];
+const radioButtonsQuestion2 = form.elements[`question2`];
+
+// const showStatus = () => {
+//   radioButtonsQuestion1.forEach((radioButtonElement) => {
+//     console.log(`name: `, radioButtonElement.name, `; val: `, radioButtonElement.value, `; checked: `, radioButtonElement.checked);
+//   });
+//
+//   radioButtonsQuestion2.forEach((radioButtonElement) => {
+//     console.log(`name: `, radioButtonElement.name, `; val: `, radioButtonElement.value, `; checked: `, radioButtonElement.checked);
+//   });
+//   console.log(`*****************************************`);
+// };
+
+// showStatus();
+
+const checkStatus = () => {
+  let question1answered = false;
+  let question2answered = false;
+
+  radioButtonsQuestion1.forEach((radioButton) => {
+    if (radioButton.checked) {
+      question1answered = true;
+    }
+  });
+
+  radioButtonsQuestion2.forEach((radioButton) => {
+    if (radioButton.checked) {
+      question2answered = true;
+    }
+  });
+
+  return question1answered && question2answered;
+};
+
+radioButtonsQuestion1.forEach((radioButtonElement) => {
+  radioButtonElement.addEventListener(`change`, function () {
+    if (checkStatus()) {
+      showScreen(game2ScreenElement);
+    }
+  });
+});
+
+radioButtonsQuestion2.forEach((radioButtonElement) => {
+  radioButtonElement.addEventListener(`change`, function () {
+    if (checkStatus()) {
+      showScreen(game2ScreenElement);
+    }
+  });
+});
+
+backButtonElement.addEventListener('click', () => {
+  showScreen(greetingScreenElement);
+});
+
+export default game1ScreenElement;
 

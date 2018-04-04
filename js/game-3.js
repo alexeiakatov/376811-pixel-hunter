@@ -1,4 +1,7 @@
-import { getElement } from './elementFactory.js';
+import getElement from './elementFactory.js';
+import showScreen from './render.js';
+import statsElement from './stats.js';
+import greetingScreenElement from "./greeting";
 
 const game3TemplateString =
   `<header class="header">
@@ -54,5 +57,17 @@ const game3TemplateString =
     </div>
   </footer>`;
 
-const game3Element = getElement(game3TemplateString);
-export default game3Element;
+const game3ScreenElement = getElement(game3TemplateString);
+let gameOptions = game3ScreenElement.querySelector(`.game__content`).querySelectorAll(`.game__option`);
+
+gameOptions.forEach((element) => {
+  element.addEventListener(`click`, () => {
+    showScreen(statsElement);
+  });
+});
+
+backButtonElement.addEventListener('click', () => {
+  showScreen(greetingScreenElement);
+});
+
+export default game3ScreenElement;
