@@ -3,7 +3,6 @@ import game3ScreenElement from './game-3.js';
 import showScreen from './render.js';
 import greetingScreenElement from "./greeting";
 
-
 const game2TemplateString =
   `<header class="header">
     <div class="header__back">
@@ -61,18 +60,20 @@ const game2TemplateString =
   </footer>`;
 
 const game2ScreenElement = getElement(game2TemplateString);
-const form = game2ScreenElement.querySelector(`.game__content`);
-const inputs = form.elements[`question1`];
+const radioButtonElements = game2ScreenElement.querySelector(`.game__content`).elements[`question1`];
+const backButtonElement = game2ScreenElement.querySelector(`.header .back`);
 
-inputs.forEach((inputElement) => {
-  inputElement.addEventListener(`change`, (evt) => {
+// ОБРАБОТЧИКИ: события 'change' на radioButton'е
+radioButtonElements.forEach((radioButtonElement) => {
+  radioButtonElement.addEventListener(`change`, (evt) => {
     if (evt.target.checked) {
       showScreen(game3ScreenElement);
     }
   });
 });
 
-backButtonElement.addEventListener('click', () => {
+// ОБРАБОТЧИК: клика на кнопку back
+backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });
 

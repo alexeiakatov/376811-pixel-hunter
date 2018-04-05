@@ -2,7 +2,6 @@ import getElement from './elementFactory.js';
 import game2ScreenElement from "./game-2.js";
 import showScreen from './render.js';
 import greetingScreenElement from "./greeting";
-import rulesScreenElement from "./rules";
 
 const game1TemplateString =
   `<header class="header">
@@ -72,7 +71,7 @@ const game1TemplateString =
   </footer>`;
 
 const game1ScreenElement = getElement(game1TemplateString);
-const backButtonElement = rulesScreenElement.querySelector(`.header .back`);
+const backButtonElement = game1ScreenElement.querySelector(`.header .back`);
 const form = game1ScreenElement.querySelector(`.game__content`);
 
 
@@ -127,7 +126,7 @@ radioButtonsQuestion2.forEach((radioButtonElement) => {
   });
 });
 
-backButtonElement.addEventListener('click', () => {
+backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });
 

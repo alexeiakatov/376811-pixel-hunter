@@ -58,15 +58,17 @@ const game3TemplateString =
   </footer>`;
 
 const game3ScreenElement = getElement(game3TemplateString);
-let gameOptions = game3ScreenElement.querySelector(`.game__content`).querySelectorAll(`.game__option`);
+const gameOptionElements = game3ScreenElement.querySelector(`.game__content`).querySelectorAll(`.game__option`);
+const backButtonElement = game3ScreenElement.querySelector(`.header .back`);
 
-gameOptions.forEach((element) => {
+
+gameOptionElements.forEach((element) => {
   element.addEventListener(`click`, () => {
     showScreen(statsElement);
   });
 });
 
-backButtonElement.addEventListener('click', () => {
+backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });
 

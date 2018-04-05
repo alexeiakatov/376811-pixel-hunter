@@ -122,9 +122,11 @@ const statsTemplateString =
     </div>
   </footer>`;
 
-backButtonElement.addEventListener('click', () => {
+const statsElement = getElement(statsTemplateString);
+const backButtonElement = statsElement.querySelector(`.header .back`);
+
+backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });
 
-const statsElement = getElement(statsTemplateString);
 export default statsElement;
