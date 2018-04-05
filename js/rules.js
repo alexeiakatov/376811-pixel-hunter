@@ -1,6 +1,6 @@
 import getElement from './elementFactory.js';
 import game1ScreenElement from './game-1.js';
-import greetingScreenElement from  './greeting.js';
+import greetingScreenElement from './greeting.js';
 import showScreen from './render.js';
 
 const rulesTemplateString =
@@ -57,7 +57,7 @@ rulesInputElement.addEventListener(`input`, function () {
   }
 });
 
-backButtonElement.addEventListener('click', () => {
+backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });
 
