@@ -27,9 +27,10 @@ const greetingTemplateString =
     </div>
   </footer>`;
 
-
 const greetingScreenElement = getElement(greetingTemplateString);
-greetingScreenElement.querySelector(`.greeting__continue`).addEventListener(`click`, function () {
+
+// ОБРАБОТЧИК: 'click' на стрелке вперед
+greetingScreenElement.querySelector(`.greeting__continue`).addEventListener(`click`, () => {
   showScreen(rulesScreenElement);
 });
 

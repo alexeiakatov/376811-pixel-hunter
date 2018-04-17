@@ -39,24 +39,24 @@ const rulesTemplateString =
     </div>`;
 
 const rulesScreenElement = getElement(rulesTemplateString);
-const rulesButtonElement = rulesScreenElement.querySelector(`.rules__button`);
+
+const goButtonElement = rulesScreenElement.querySelector(`.rules__button`);
 const rulesInputElement = rulesScreenElement.querySelector(`.rules__input`);
 const backButtonElement = rulesScreenElement.querySelector(`.header .back`);
 
-rulesButtonElement.disabled = true;
+goButtonElement.disabled = true;
 
-rulesButtonElement.addEventListener(`click`, function () {
+// ОБРАБОТЧИК: клика по кнопке 'GO'
+goButtonElement.addEventListener(`click`, () => {
   showScreen(game1ScreenElement);
 });
 
-rulesInputElement.addEventListener(`input`, function () {
-  if (rulesInputElement.value && rulesInputElement.value.length > 0) {
-    rulesButtonElement.disabled = false;
-  } else {
-    rulesButtonElement.disabled = true;
-  }
+// ОБРАБОТЧИК: события 'change' у input для имени
+rulesInputElement.addEventListener(`input`, (evt) => {
+  goButtonElement.disabled = (evt.target.value && evt.target.value.length > 0) ? false : true;
 });
 
+// ОБРАБОТЧИК: клика по кнопке 'назад'
 backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });

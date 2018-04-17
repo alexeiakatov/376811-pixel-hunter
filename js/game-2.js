@@ -18,21 +18,32 @@ const game2TemplateString =
       <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
     </div>
   </header>
+  
   <div class="game">
     <p class="game__task">Угадай, фото или рисунок?</p>
+  
+    <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ -->
     <form class="game__content  game__content--wide">
+    
       <div class="game__option">
         <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
+        
+        <!-- ОТВЕТ №1 -->
         <label class="game__answer  game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
         </label>
+        
+        <!-- ОТВЕТ №2 -->
         <label class="game__answer  game__answer--wide  game__answer--paint">
           <input name="question1" type="radio" value="paint">
           <span>Рисунок</span>
         </label>
+        
       </div>
+      
     </form>
+    
     <div class="stats">
       <ul class="stats">
         <li class="stats__result stats__result--wrong"></li>
@@ -60,19 +71,15 @@ const game2TemplateString =
   </footer>`;
 
 const game2ScreenElement = getElement(game2TemplateString);
-const radioButtonElements = game2ScreenElement.querySelector(`.game__content`).elements[`question1`];
+const form = game2ScreenElement.querySelector(`.game__content`);
 const backButtonElement = game2ScreenElement.querySelector(`.header .back`);
 
-// ОБРАБОТЧИКИ: события 'change' на radioButton'е
-radioButtonElements.forEach((radioButtonElement) => {
-  radioButtonElement.addEventListener(`change`, (evt) => {
-    if (evt.target.checked) {
-      showScreen(game3ScreenElement);
-    }
-  });
+// ОБРАБОТЧИК: события 'change' на форме с вопросами.
+form.addEventListener(`change`, () => {
+  showScreen(game3ScreenElement);
 });
 
-// ОБРАБОТЧИК: клика на кнопку back
+// ОБРАБОТЧИК: клика по кнопке 'назад'
 backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });

@@ -20,30 +20,44 @@ const game1TemplateString =
   </header>
   <div class="game">
     <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
+    
+    <!-- ФОРМА С ВОПРОСАМИ И ВАРИАНТАМИ ОТВЕТОВ -->
     <form class="game__content">
+    
       <div class="game__option">
         <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
+        
+        <!-- ПЕРВЫЙ ВОПРОС - ОТВЕТ №1 -->
         <label class="game__answer game__answer--photo">
           <input name="question1" type="radio" value="photo">
           <span>Фото</span>
         </label>
+        
+        <!-- ПЕРВЫЙ ВОПРОС - ОТВЕТ №2 -->
         <label class="game__answer game__answer--paint">
           <input name="question1" type="radio" value="paint">
           <span>Рисунок</span>
         </label>
       </div>
+      
       <div class="game__option">
         <img src="http://placehold.it/468x458" alt="Option 2" width="468" height="458">
+        
+        <!-- ВТОРОЙ ВОПРОС - ОТВЕТ №1 -->
         <label class="game__answer  game__answer--photo">
           <input name="question2" type="radio" value="photo">
           <span>Фото</span>
         </label>
+        
+        <!-- ВТОРОЙ ВОПРОС - ОТВЕТ №2-->
         <label class="game__answer  game__answer--paint">
           <input name="question2" type="radio" value="paint">
           <span>Рисунок</span>
         </label>
       </div>
+      
     </form>
+    
     <div class="stats">
       <ul class="stats">
         <li class="stats__result stats__result--wrong"></li>
@@ -74,58 +88,18 @@ const game1ScreenElement = getElement(game1TemplateString);
 const backButtonElement = game1ScreenElement.querySelector(`.header .back`);
 const form = game1ScreenElement.querySelector(`.game__content`);
 
-
-const radioButtonsQuestion1 = form.elements[`question1`];
-const radioButtonsQuestion2 = form.elements[`question2`];
-
-// const showStatus = () => {
-//   radioButtonsQuestion1.forEach((radioButtonElement) => {
-//     console.log(`name: `, radioButtonElement.name, `; val: `, radioButtonElement.value, `; checked: `, radioButtonElement.checked);
-//   });
-//
-//   radioButtonsQuestion2.forEach((radioButtonElement) => {
-//     console.log(`name: `, radioButtonElement.name, `; val: `, radioButtonElement.value, `; checked: `, radioButtonElement.checked);
-//   });
-//   console.log(`*****************************************`);
-// };
-
-// showStatus();
-
-const checkStatus = () => {
-  let question1answered = false;
-  let question2answered = false;
-
-  radioButtonsQuestion1.forEach((radioButton) => {
-    if (radioButton.checked) {
-      question1answered = true;
-    }
+// ОБРАБОТЧИК: события 'change' на форме. Для обработки кликов-ответов на вопросы question1 и question2.
+form.addEventListener(`change`, (evt) => {
+  form.querySelectorAll(`input[name=${evt.target.name}]`).forEach((element) => {
+    element.disabled = true;
   });
 
-  radioButtonsQuestion2.forEach((radioButton) => {
-    if (radioButton.checked) {
-      question2answered = true;
-    }
-  });
-
-  return question1answered && question2answered;
-};
-
-radioButtonsQuestion1.forEach((radioButtonElement) => {
-  radioButtonElement.addEventListener(`change`, function () {
-    if (checkStatus()) {
-      showScreen(game2ScreenElement);
-    }
-  });
+  if (form.querySelectorAll(`input[type="radio"]:checked`).length === 2) {
+    showScreen(game2ScreenElement);
+  }
 });
 
-radioButtonsQuestion2.forEach((radioButtonElement) => {
-  radioButtonElement.addEventListener(`change`, function () {
-    if (checkStatus()) {
-      showScreen(game2ScreenElement);
-    }
-  });
-});
-
+// ОБРАБОТЧИК: клика по кнопке 'назад'
 backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });

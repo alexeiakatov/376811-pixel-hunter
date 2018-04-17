@@ -125,6 +125,7 @@ const statsTemplateString =
 const statsElement = getElement(statsTemplateString);
 const backButtonElement = statsElement.querySelector(`.header .back`);
 
+// ОБРАБОТЧИК: клика по кнопке 'назад'
 backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });

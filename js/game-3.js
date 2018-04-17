@@ -18,19 +18,30 @@ const game3TemplateString =
       <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
     </div>
   </header>
+  
   <div class="game">
     <p class="game__task">Найдите рисунок среди изображений</p>
+  
+    <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ -->
     <form class="game__content  game__content--triple">
+    
+      <!-- ОТВЕТ №1 -->
       <div class="game__option">
         <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
       </div>
+      
+      <!-- ОТВЕТ №2 -->
       <div class="game__option  game__option--selected">
         <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
       </div>
+      
+      <!-- ОТВЕТ №3 -->
       <div class="game__option">
         <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
       </div>
+      
     </form>
+    
     <div class="stats">
       <ul class="stats">
         <li class="stats__result stats__result--wrong"></li>
@@ -58,16 +69,15 @@ const game3TemplateString =
   </footer>`;
 
 const game3ScreenElement = getElement(game3TemplateString);
-const gameOptionElements = game3ScreenElement.querySelector(`.game__content`).querySelectorAll(`.game__option`);
+const form = game3ScreenElement.querySelector(`.game__content`);
 const backButtonElement = game3ScreenElement.querySelector(`.header .back`);
 
-
-gameOptionElements.forEach((element) => {
-  element.addEventListener(`click`, () => {
-    showScreen(statsElement);
-  });
+// ОБРАБОТЧИК: клика на одном из ответов (div.game__option)
+form.addEventListener(`click`, () => {
+  showScreen(statsElement);
 });
 
+// ОБРАБОТЧИК: клика по кнопке 'назад'
 backButtonElement.addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });

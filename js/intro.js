@@ -21,7 +21,9 @@ const introTemplateString =
   </footer>`;
 
 const introScreenElement = getElement(introTemplateString);
-introScreenElement.querySelector(`.intro__asterisk`).addEventListener(`click`, function () {
+
+// ОБРАБОТЧИК: клика на астерикс
+introScreenElement.querySelector(`.intro__asterisk`).addEventListener(`click`, () => {
   showScreen(greetingScreenElement);
 });
 
