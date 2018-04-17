@@ -88,13 +88,21 @@ const game1ScreenElement = getElement(game1TemplateString);
 const backButtonElement = game1ScreenElement.querySelector(`.header .back`);
 const form = game1ScreenElement.querySelector(`.game__content`);
 
+const questionInputElements = form.querySelectorAll(`input`);
+
 // ОБРАБОТЧИК: события 'change' на форме. Для обработки кликов-ответов на вопросы question1 и question2.
 form.addEventListener(`change`, (evt) => {
-  form.querySelectorAll(`input[name=${evt.target.name}]`).forEach((element) => {
-    element.disabled = true;
+  let checkedCount = 0;
+  questionInputElements.forEach((element) => {
+    if (element.name === evt.target.name) {
+      element.disabled = true;
+    }
+    if (element.checked) {
+      ++checkedCount;
+    }
   });
 
-  if (form.querySelectorAll(`input[type="radio"]:checked`).length === 2) {
+  if (checkedCount === 2) {
     showScreen(game2ScreenElement);
   }
 });
