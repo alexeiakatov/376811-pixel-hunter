@@ -89,10 +89,11 @@ const backButtonElement = game1ScreenElement.querySelector(`.header .back`);
 const form = game1ScreenElement.querySelector(`.game__content`);
 
 const questionInputElements = form.querySelectorAll(`input`);
+let checkedCount = 0;
 
 // ОБРАБОТЧИК: события 'change' на форме. Для обработки кликов-ответов на вопросы question1 и question2.
 form.addEventListener(`change`, (evt) => {
-  let checkedCount = 0;
+  checkedCount = 0;
   questionInputElements.forEach((element) => {
     if (element.name === evt.target.name) {
       element.disabled = true;
