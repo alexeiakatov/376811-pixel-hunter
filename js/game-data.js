@@ -43,7 +43,7 @@ export const getTimer = (workPeriod) => {
     },
 
     tick() {
-      if (this.timeLeft > 0) {
+      if (this.timeLeft > 1) {
         this.timeLeft--;
 
       } else {
