@@ -1,9 +1,11 @@
 import getElement from './elementFactory.js';
-import rulesScreenElement from "./rules";
-import showScreen from './render';
+import showScreen from './render.js';
+import {setHeaderType} from './game-data.js';
 
-const greetingTemplateString =
-  `<div class="greeting central--blur">
+const getGreetingElement = () => {
+  setHeaderType(null);
+  const greetingTemplate =
+    `<div class="greeting central--blur">
     <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
     <h1 class="greeting__asterisk">*</h1>
     <div class="greeting__challenge">
@@ -15,23 +17,16 @@ const greetingTemplateString =
         Помни, главное — смотреть очень внимательно.</p>
     </div>
     <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const greetingScreenElement = getElement(greetingTemplateString);
+  const greetingElement = getElement(greetingTemplate).content;
 
-// ОБРАБОТЧИК: 'click' на стрелке вперед
-greetingScreenElement.querySelector(`.greeting__continue`).addEventListener(`click`, () => {
-  showScreen(rulesScreenElement);
-});
+  // ОБРАБОТЧИК: 'click' на стрелке вперед
+  greetingElement.querySelector(`.greeting__continue`).addEventListener(`click`, () => {
+    showScreen(`rules`);
+  });
 
-export default greetingScreenElement;
+  return greetingElement;
+};
+
+export default getGreetingElement;

@@ -1,7 +1,7 @@
 const getElement = (templateString) => {
-  let element = document.createElement(`div`);
-  element.innerHTML = templateString;
-  return element;
+  let templateElement = document.createElement(`template`);
+  templateElement.innerHTML = templateString;
+  return templateElement;
 };
 
 export default getElement;

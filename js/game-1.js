@@ -1,60 +1,48 @@
 import getElement from './elementFactory.js';
-import game2ScreenElement from "./game-2.js";
 import showScreen from './render.js';
-import greetingScreenElement from "./greeting";
+import getAnswerElement from './answers.js';
+import {setHeaderType} from './game-data.js';
 
-const game1TemplateString =
-  `<header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  <div class="game">
+const getGame1Element = () => {
+  setHeaderType(`info`);
+  const game1Template =
+    `<div class="game">
     <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
     
     <!-- ФОРМА С ВОПРОСАМИ И ВАРИАНТАМИ ОТВЕТОВ -->
     <form class="game__content">
     
-      <div class="game__option">
-        <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
-        
-        <!-- ПЕРВЫЙ ВОПРОС - ОТВЕТ №1 -->
-        <label class="game__answer game__answer--photo">
-          <input name="question1" type="radio" value="photo">
-          <span>Фото</span>
-        </label>
-        
-        <!-- ПЕРВЫЙ ВОПРОС - ОТВЕТ №2 -->
-        <label class="game__answer game__answer--paint">
-          <input name="question1" type="radio" value="paint">
-          <span>Рисунок</span>
-        </label>
-      </div>
+      <!--<div class="game__option">-->
+        <!--<img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">-->
+        <!---->
+        <!--&lt;!&ndash; ПЕРВЫЙ ВОПРОС - ОТВЕТ №1 &ndash;&gt;-->
+        <!--<label class="game__answer game__answer&#45;&#45;photo">-->
+          <!--<input name="question1" type="radio" value="photo">-->
+          <!--<span>Фото</span>-->
+        <!--</label>-->
+        <!---->
+        <!--&lt;!&ndash; ПЕРВЫЙ ВОПРОС - ОТВЕТ №2 &ndash;&gt;-->
+        <!--<label class="game__answer game__answer&#45;&#45;paint">-->
+          <!--<input name="question1" type="radio" value="paint">-->
+          <!--<span>Рисунок</span>-->
+        <!--</label>-->
+      <!--</div>-->
       
-      <div class="game__option">
-        <img src="http://placehold.it/468x458" alt="Option 2" width="468" height="458">
-        
-        <!-- ВТОРОЙ ВОПРОС - ОТВЕТ №1 -->
-        <label class="game__answer  game__answer--photo">
-          <input name="question2" type="radio" value="photo">
-          <span>Фото</span>
-        </label>
-        
-        <!-- ВТОРОЙ ВОПРОС - ОТВЕТ №2-->
-        <label class="game__answer  game__answer--paint">
-          <input name="question2" type="radio" value="paint">
-          <span>Рисунок</span>
-        </label>
-      </div>
+      <!--<div class="game__option">-->
+        <!--<img src="http://placehold.it/468x458" alt="Option 2" width="468" height="458">-->
+        <!---->
+        <!--&lt;!&ndash; ВТОРОЙ ВОПРОС - ОТВЕТ №1 &ndash;&gt;-->
+        <!--<label class="game__answer  game__answer&#45;&#45;photo">-->
+          <!--<input name="question2" type="radio" value="photo">-->
+          <!--<span>Фото</span>-->
+        <!--</label>-->
+        <!---->
+        <!--&lt;!&ndash; ВТОРОЙ ВОПРОС - ОТВЕТ №2&ndash;&gt;-->
+        <!--<label class="game__answer  game__answer&#45;&#45;paint">-->
+          <!--<input name="question2" type="radio" value="paint">-->
+          <!--<span>Рисунок</span>-->
+        <!--</label>-->
+      <!--</div>-->
       
     </form>
     
@@ -72,46 +60,37 @@ const game1TemplateString =
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const game1ScreenElement = getElement(game1TemplateString);
-const backButtonElement = game1ScreenElement.querySelector(`.header .back`);
-const form = game1ScreenElement.querySelector(`.game__content`);
+  const game1Element = getElement(game1Template).content;
+  const form = game1Element.querySelector(`.game__content`);
 
-const questionInputElements = form.querySelectorAll(`input`);
-let checkedCount = 0;
 
-// ОБРАБОТЧИК: события 'change' на форме. Для обработки кликов-ответов на вопросы question1 и question2.
-form.addEventListener(`change`, (evt) => {
-  checkedCount = 0;
-  questionInputElements.forEach((element) => {
-    if (element.name === evt.target.name) {
-      element.disabled = true;
-    }
-    if (element.checked) {
-      ++checkedCount;
+  form.appendChild(getAnswerElement(1, `http://placehold.it/468x458`, 1));
+  form.appendChild(getAnswerElement(1, `http://placehold.it/468x458`, 2));
+
+  const questionInputElements = form.querySelectorAll(`input`);
+  let checkedCount;
+
+  // ОБРАБОТЧИК: события 'change' на форме. Для обработки кликов-ответов на вопросы question1 и question2.
+  form.addEventListener(`change`, (evt) => {
+    checkedCount = 0;
+    questionInputElements.forEach((element) => {
+      if (element.name === evt.target.name) {
+        element.disabled = true;
+      }
+      if (element.checked) {
+        ++checkedCount;
+      }
+    });
+
+    if (checkedCount === 2) {
+      showScreen(`game2`);
     }
   });
 
-  if (checkedCount === 2) {
-    showScreen(game2ScreenElement);
-  }
-});
+  return game1Element;
+};
 
-// ОБРАБОТЧИК: клика по кнопке 'назад'
-backButtonElement.addEventListener(`click`, () => {
-  showScreen(greetingScreenElement);
-});
-
-export default game1ScreenElement;
+export default getGame1Element;
 
