@@ -1,46 +1,20 @@
 import getElement from './elementFactory.js';
-import game3ScreenElement from './game-3.js';
 import showScreen from './render.js';
-import greetingScreenElement from "./greeting";
+import {setHeaderType} from './game-data.js';
+import getAnswerElement from "./answers";
 
-const game2TemplateString =
-  `<header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  
-  <div class="game">
+
+const getGame2Element = () => {
+  setHeaderType(`info`);
+
+  const game2Template =
+    `<div class="game">
     <p class="game__task">Угадай, фото или рисунок?</p>
   
     <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ -->
     <form class="game__content  game__content--wide">
     
-      <div class="game__option">
-        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
-        
-        <!-- ОТВЕТ №1 -->
-        <label class="game__answer  game__answer--photo">
-          <input name="question1" type="radio" value="photo">
-          <span>Фото</span>
-        </label>
-        
-        <!-- ОТВЕТ №2 -->
-        <label class="game__answer  game__answer--wide  game__answer--paint">
-          <input name="question1" type="radio" value="paint">
-          <span>Рисунок</span>
-        </label>
-        
-      </div>
+      
       
     </form>
     
@@ -58,32 +32,20 @@ const game2TemplateString =
         <li class="stats__result stats__result--unknown"></li>
       </ul>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  </div>`;
 
-const game2ScreenElement = getElement(game2TemplateString);
-const form = game2ScreenElement.querySelector(`.game__content`);
-const backButtonElement = game2ScreenElement.querySelector(`.header .back`);
+  const game2Element = getElement(game2Template).content;
+  const form = game2Element.querySelector(`.game__content`);
+  form.appendChild(getAnswerElement(2, `http://placehold.it/705x455`));
 
-// ОБРАБОТЧИК: события 'change' на форме с вопросами.
-form.addEventListener(`change`, () => {
-  showScreen(game3ScreenElement);
-});
+  // ОБРАБОТЧИК: события 'change' на форме с вопросами.
+  form.addEventListener(`change`, () => {
+    showScreen(`game3`);
+  });
 
-// ОБРАБОТЧИК: клика по кнопке 'назад'
-backButtonElement.addEventListener(`click`, () => {
-  showScreen(greetingScreenElement);
-});
+  return game2Element;
+};
 
-export default game2ScreenElement;
+export default getGame2Element;
 
 

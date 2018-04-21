@@ -5,6 +5,15 @@ const FAST_ANSWER_SCORE = 150;
 const NORMAL_ANSWER_SCORE = 100;
 const SLOW_ANSWER_SCORE = 50;
 
+let headerType;
+
+export const setHeaderType = (type) => {
+  headerType = type;
+};
+export const getHeaderType = () => {
+  return headerType;
+};
+
 export const getResultScore = (playerAnswers, remainingLives) => {
   if (playerAnswers.length < 10) {
     return -1;
