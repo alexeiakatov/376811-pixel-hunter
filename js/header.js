@@ -1,4 +1,4 @@
-import getElement from './elementFactory';
+import elementFactory from './elementFactory';
 import showScreen from './render.js';
 
 const EMPTY_HEADER = `empty`;
@@ -9,7 +9,7 @@ const getHeaderElement = (headerType, data) => {
 
   switch (headerType) {
     case EMPTY_HEADER :
-      headerElement = getElement(`
+      headerElement = elementFactory.getElement(`
       <header class="header">
         <div class="header__back">
           <button class="back">
@@ -21,7 +21,7 @@ const getHeaderElement = (headerType, data) => {
       break;
 
     case INFO_HEADER :
-      headerElement = getElement(` 
+      headerElement = elementFactory.getElement(` 
       <header class="header">
         <div class="header__back">
           <button class="back">
@@ -39,7 +39,7 @@ const getHeaderElement = (headerType, data) => {
       break;
   }
 
-  const backButtonElement = headerElement.content.querySelector(`.header .back`);
+  const backButtonElement = headerElement.querySelector(`.header .back`);
 
   // ОБРАБОТЧИК: клика по кнопке 'назад'
   if (backButtonElement) {
@@ -47,7 +47,7 @@ const getHeaderElement = (headerType, data) => {
       showScreen(`greeting`);
     });
   }
-  return headerElement.content;
+  return headerElement;
 };
 
 export default getHeaderElement;

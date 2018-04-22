@@ -1,55 +1,32 @@
-import getElement from './elementFactory.js';
+import elementFactory from './elementFactory.js';
 import showScreen from './render.js';
-import {setHeaderType} from './game-data.js';
 
 const getGame3Element = () => {
-  setHeaderType(`info`);
-  const game3Template =
-    `<div class="game">
-    <p class="game__task">Найдите рисунок среди изображений</p>
-  
-    <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ -->
-    <form class="game__content  game__content--triple">
+  const game3Template = `
+    <div class="component" data-name="header" data-type="info"></div>
+    <div class="game">
+      <p class="game__task">Найдите рисунок среди изображений</p>
     
-      <!-- ОТВЕТ №1 -->
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
+      <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ - в ней д.б. 3 варианта ответа -->
+      <form class="game__content  game__content--triple">
+        <div class="component" data-name="answer" data-type="3" data-option-number="1"></div>
+        <div class="component" data-name="answer" data-type="3" data-option-number="2"></div>
+        <div class="component" data-name="answer" data-type="3" data-option-number="3"></div>
+      </form>
       
-      <!-- ОТВЕТ №2 -->
-      <div class="game__option  game__option--selected">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      
-      <!-- ОТВЕТ №3 -->
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      
-    </form>
-    
-    <div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
+      <!-- КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ ВНУТРИ-ИГРОВОЙ СТАТИСТИКИ -->
+      <div class="component" data-name="inGameStats"></div>
     </div>
-  </div>`;
+  `;
 
-  const game3Element = getElement(game3Template).content;
+  const game3Element = elementFactory.getElement(game3Template);
+  elementFactory.checkAndAddComponents(game3Element);
+
   const form = game3Element.querySelector(`.game__content`);
 
   // ОБРАБОТЧИК: клика на одном из ответов (div.game__option)
   form.addEventListener(`click`, () => {
-    showScreen(`stats`);
+    showScreen(`finalStats`);
   });
 
   return game3Element;

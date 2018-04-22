@@ -1,12 +1,11 @@
-import getElement from './elementFactory.js';
+import elementFactory from './elementFactory.js';
 import showScreen from './render.js';
-import {setHeaderType} from './game-data.js';
 
 const getRulesElement = () => {
-  setHeaderType(`empty`);
+  const rulesTemplate = `
+  <div class="component" data-name="header" data-type="empty"></div>
 
-  const rulesTemplate =
-    `<div class="rules">
+  <div class="rules">
     <h1 class="rules__title">Правила</h1>
     <p class="rules__description">Угадай 10 раз для каждого изображения фото <img
       src="img/photo_icon.png" width="16" height="16"> или рисунок <img
@@ -21,9 +20,11 @@ const getRulesElement = () => {
       <input class="rules__input" type="text" placeholder="Ваше Имя">
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
-  </div>`;
+  </div>
+`;
 
-  const rulesElement = getElement(rulesTemplate).content;
+  const rulesElement = elementFactory.getElement(rulesTemplate);
+  elementFactory.checkAndAddComponents(rulesElement);
 
   const goButtonElement = rulesElement.querySelector(`.rules__button`);
   const rulesInputElement = rulesElement.querySelector(`.rules__input`);
