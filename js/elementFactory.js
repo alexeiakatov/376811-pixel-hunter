@@ -1,6 +1,5 @@
 import getHeaderElememt from './header.js';
 import getAnswerOptionElement from './answerOption.js';
-import gameData from './game-data.js';
 import stats from './stats.js';
 
 const getElement = (templateString) => {
@@ -64,29 +63,8 @@ const checkAndAddComponents = (element) => {
   }
 };
 
-const getScreenByName = (screenType) => {
-  switch (screenType) {
-    // case `finalStats`:
-    //   let playerStates = [];
-    //   gameData.getResultScore();
-    //   playerStates.push(gameData.getPlayerState());
-    //
-    //   // это - мок для проверки отображения статистики, когда win = false;
-    //   playerStates.push({
-    //     win: false,
-    //     remainingLives: 0,
-    //     baseScore: 1000,
-    //     fastAnswers: 3,
-    //     slowAnswers: 3,
-    //     totalScore: 1000
-    //   });
-    //
-    //   return stats.getFinalStatsElement(playerStates);
-  }
-};
 export default {
   getElement,
   checkAndAddComponents,
-  getScreenByName
 };
 

@@ -63,25 +63,28 @@ const getStatsHistoryLength = () => STATES_HISTORY_LENGTH;
 
 // ГЕТТЕР И СЕТТЕР для currentQuestionNumber
 const getCurrentQuestionNumber = () => currentQuestionNumber;
-const setCurrentQuestionNumber = (newNumber) => currentQuestionNumber = newNumber;
+const setCurrentQuestionNumber = (newNumber) => {
+  currentQuestionNumber = newNumber;
+};
 
 // Показать состояние
 const showState = () => {
-  console.log(`*** PLAYER STATE: ***`);
-  console.log(`  currentQuestionNumber: `, currentQuestionNumber);
-  for (let key in playerState) {
-    if (key === `answers`) {
-      console.log(`  answers: `);
-      playerState[key].forEach((answer, index) => {
-        console.log(`    `, index, `isCorrect: `, answer.isCorrect, `; speed: `, answer.speed, `; time: `, answer.time);
-      });
-
-    } else {
-      console.log(`  `, key, `: `, playerState[key]);
-    }
-  }
-  console.log(`**********************`);
+//   console.log(`*** PLAYER STATE: ***`);
+//   console.log(`  currentQuestionNumber: `, currentQuestionNumber);
+//   for (let key in playerState) {
+//     if (key === `answers`) {
+//       console.log(`  answers: `);
+//       playerState[key].forEach((answer, index) => {
+//         console.log(`    `, index, `isCorrect: `, answer.isCorrect, `; speed: `, answer.speed, `; time: `, answer.time);
+//       });
+//
+//     } else {
+//       console.log(`  `, key, `: `, playerState[key]);
+//     }
+//   }
+//   console.log(`**********************`);
 };
+
 // ФУНКЦИЯ: проверить полученные ответы на вопрос.
 // { object } answer
 const checkAnswer = (answer) => {

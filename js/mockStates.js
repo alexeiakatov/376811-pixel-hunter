@@ -99,9 +99,9 @@ let notAnswered = {
   ]
 };
 export default {
-    isFail,
-    savedLives,
-    fastAnswers,
-    slowAnswers,
-    notAnswered
-}
+  isFail,
+  savedLives,
+  fastAnswers,
+  slowAnswers,
+  notAnswered
+};

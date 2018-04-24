@@ -24,7 +24,7 @@ const getHeaderElement = (headerType) => {
     case INFO_HEADER :
       let livesElementStrings = [];
       let lives = gameData.getRemainingLives();
-      for (let i = 0; i < 3; i++){
+      for (let i = 0; i < 3; i++) {
         if (i < lives) {
           livesElementStrings.push(`
           <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
