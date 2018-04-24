@@ -1,7 +1,12 @@
 import elementFactory from './elementFactory.js';
-import showScreen from './render.js';
+import gameData from './game-data.js';
+import main from './main.js';
 
-const getGame1Element = () => {
+// { Object } question1, question2.
+const getGame1Element = (question1, question2) => {
+  question1 = JSON.stringify(question1);
+  question2 = JSON.stringify(question2);
+
   const game1Template = `
     <div class="component" data-name="header" data-type="info"></div>
     <div class="game">
@@ -9,8 +14,8 @@ const getGame1Element = () => {
     
       <!-- ФОРМА С 2мя ВОПРОСАМИ И ВАРИАНТАМИ ОТВЕТОВ в ней д.б. 2 варианта ответа -->
       <form class="game__content">
-        <div class="component" data-name="answer" data-type="1" data-option-number="1"></div>    
-        <div class="component" data-name="answer" data-type="1" data-option-number="2"></div>    
+        <div class="component" data-name="answerOption" data-type="1" data-option-number="1" data-question=${question1}></div>    
+        <div class="component" data-name="answerOption" data-type="1" data-option-number="2" data-question=${question2}></div>    
       </form>
     
       <!-- КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ ВНУТРИ-ИГРОВОЙ СТАТИСТИКИ -->
@@ -38,8 +43,17 @@ const getGame1Element = () => {
       }
     });
 
-    if (checkedCount === 2) {
-      showScreen(`game2`);
+    let answer = {
+      questionIndex: evt.target.dataset.questionIndex,
+      answer: evt.target.value
+    };
+
+    if (gameData.checkAnswer(answer)) {
+      if (checkedCount === 2) {
+        main.goNextQuestion();
+      }
+    } else {
+      main.goFinalStats();
     }
   });
 

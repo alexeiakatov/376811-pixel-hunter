@@ -1,5 +1,5 @@
 import elementFactory from './elementFactory.js';
-import showScreen from './render.js';
+import main from './main.js';
 
 const getRulesElement = () => {
   const rulesTemplate = `
@@ -33,7 +33,7 @@ const getRulesElement = () => {
 
   // ОБРАБОТЧИК: клика по кнопке 'GO'
   goButtonElement.addEventListener(`click`, () => {
-    showScreen(`game1`);
+    main.goNextQuestion();
   });
 
   // ОБРАБОТЧИК: события 'change' у input для имени

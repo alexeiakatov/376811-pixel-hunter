@@ -1,5 +1,5 @@
 import elementFactory from './elementFactory.js';
-import showScreen from './render';
+import main from './main.js';
 
 const getIntroElement = () => {
   const introTemplateString = `
@@ -15,7 +15,7 @@ const getIntroElement = () => {
 
   // ОБРАБОТЧИК: клика на астерикс
   introElement.querySelector(`.intro__asterisk`).addEventListener(`click`, () => {
-    showScreen(`greeting`);
+    main.goGreetingOrRules(`greeting`);
   });
 
   return introElement;

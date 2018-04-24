@@ -1,10 +1,8 @@
-import elementFactory from './elementFactory.js';
-
 const centralElement = document.body.querySelector(`.central`);
 
-const showScreen = (screenType) => {
+const showScreen = (screenElement) => {
   centralElement.innerHTML = ``;
-  centralElement.appendChild(elementFactory.getScreenByName(screenType));
+  centralElement.appendChild(screenElement);
 };
 
 export default showScreen;

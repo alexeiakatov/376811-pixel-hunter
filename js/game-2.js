@@ -1,7 +1,10 @@
 import elementFactory from './elementFactory.js';
-import showScreen from './render.js';
+import main from './main.js';
+import gameData from './game-data.js';
 
-const getGame2Element = () => {
+const getGame2Element = (question) => {
+  question = JSON.stringify(question);
+
   const game2Template = `
     <div class="component" data-name="header" data-type="info"></div>
     <div class="game">
@@ -9,7 +12,7 @@ const getGame2Element = () => {
   
       <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ - в ней д.б. 1 вариант ответа -->
       <form class="game__content  game__content--wide">
-        <div class="component" data-name="answer" data-type="2" data-option-number="1"></div>
+        <div class="component" data-name="answerOption" data-type="2" data-option-number="1" data-question=${question}></div>
       </form>
     
       <!-- КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ ВНЕТРИИГРОВОЙ СТАТИСТИКИ - элементы д.б. получены из модуля inGameStats.js -->
@@ -23,8 +26,17 @@ const getGame2Element = () => {
   const form = game2Element.querySelector(`.game__content`);
 
   // ОБРАБОТЧИК: события 'change' на форме с вопросами.
-  form.addEventListener(`change`, () => {
-    showScreen(`game3`);
+  form.addEventListener(`change`, (evt) => {
+    let answer = {
+      questionIndex: evt.target.dataset.questionIndex,
+      answer: evt.target.value
+    };
+
+    if (gameData.checkAnswer(answer)) {
+      main.goNextQuestion();
+    } else {
+      main.goFinalStats();
+    }
   });
 
   return game2Element;

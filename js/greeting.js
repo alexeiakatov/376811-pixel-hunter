@@ -1,5 +1,5 @@
 import elementFactory from './elementFactory.js';
-import showScreen from './render.js';
+import main from './main.js';
 
 const getGreetingElement = () => {
   const greetingTemplate = `
@@ -22,7 +22,7 @@ const getGreetingElement = () => {
 
   // ОБРАБОТЧИК: 'click' на стрелке вперед
   greetingElement.querySelector(`.greeting__continue`).addEventListener(`click`, () => {
-    showScreen(`rules`);
+    main.goGreetingOrRules(`rules`);
   });
 
   return greetingElement;
