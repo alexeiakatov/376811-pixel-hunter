@@ -124,29 +124,40 @@ const clearPlayerState = () => {
   currentQuestionNumber = 0;
 };
 // ФУНКЦИЯ: получить итоговый результат игры.
-const getResultScore = () => {
-  if (playerState.answers.length < 10) {
+const getResultScore = (answers, remainingLives) => {
+  let currentAnswers = answers || playerState.answers;
+  let currentPlayerState = !answers ? playerState : {
+    win: null,
+    remainingLives,
+    baseScore: 0,
+    fastAnswers: 0,
+    slowAnswers: 0,
+    totalScore: 0,
+    answers: []
+  };
+
+  if (currentAnswers.length < 10) {
     return -1;
   }
 
-  for (const value of playerState.answers) {
+  for (const value of currentAnswers) {
     if (value.isCorrect) {
-      playerState.baseScore += CORRECT_ANSWER_SCORE;
-      playerState.totalScore += CORRECT_ANSWER_SCORE;
+      currentPlayerState.baseScore += CORRECT_ANSWER_SCORE;
+      currentPlayerState.totalScore += CORRECT_ANSWER_SCORE;
 
       if (value.time < FAST_ANSWER_LIMIT) {
-        playerState.totalScore += FAST_ANSWER_BONUS;
-        playerState.fastAnswers++;
+        currentPlayerState.totalScore += FAST_ANSWER_BONUS;
+        currentPlayerState.fastAnswers++;
 
       } else if (value.time > SLOW_ANSWER_LIMIT) {
-        playerState.totalScore += SLOW_ANSWER_PENNALTY;
-        playerState.slowAnswers++;
+        currentPlayerState.totalScore += SLOW_ANSWER_PENNALTY;
+        currentPlayerState.slowAnswers++;
       }
     }
   }
 
-  playerState.totalScore += playerState.remainingLives > 0 ? SAVED_LIFE_BONUS * playerState.remainingLives : 0;
-  return playerState.totalScore;
+  currentPlayerState.totalScore += currentPlayerState.remainingLives > 0 ? SAVED_LIFE_BONUS * currentPlayerState.remainingLives : 0;
+  return currentPlayerState.totalScore;
 };
 
 // ТАЙМЕР

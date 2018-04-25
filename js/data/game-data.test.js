@@ -1,7 +1,8 @@
 import {assert} from 'chai';
-import {getResultScore} from '../game-data.js';
-import {getTimer} from '../game-data';
+import gameData from '../game-data.js';
 
+let getResultScore = gameData.getResultScore;
+let getTimer = gameData.getTimer;
 
 // describe(`Array`, () => {
 //   describe(`#indexOf()`, () => {
