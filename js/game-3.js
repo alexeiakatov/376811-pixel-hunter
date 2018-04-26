@@ -1,85 +1,50 @@
-import getElement from './elementFactory.js';
-import showScreen from './render.js';
-import statsElement from './stats.js';
-import greetingScreenElement from "./greeting";
+import elementFactory from './elementFactory.js';
+import main from './main.js';
+import gameData from './game-data.js';
 
-const game3TemplateString =
-  `<header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
-  
-  <div class="game">
-    <p class="game__task">Найдите рисунок среди изображений</p>
-  
-    <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ -->
-    <form class="game__content  game__content--triple">
+const getGame3Element = (question1, question2, question3) => {
+  question1 = JSON.stringify(question1);
+  question2 = JSON.stringify(question2);
+  question3 = JSON.stringify(question3);
+
+  const game3Template = `
+    <div class="component" data-name="header" data-type="info"></div>
+    <div class="game">
+      <p class="game__task">Найдите рисунок среди изображений</p>
     
-      <!-- ОТВЕТ №1 -->
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
+      <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ - в ней д.б. 3 варианта ответа -->
+      <form class="game__content  game__content--triple">
+        <div class="component" data-name="answerOption" data-type="3" data-option-number="1" data-question=${question1}></div>
+        <div class="component" data-name="answerOption" data-type="3" data-option-number="2" data-question=${question2}></div>
+        <div class="component" data-name="answerOption" data-type="3" data-option-number="3" data-question=${question3}></div>
+      </form>
       
-      <!-- ОТВЕТ №2 -->
-      <div class="game__option  game__option--selected">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      
-      <!-- ОТВЕТ №3 -->
-      <div class="game__option">
-        <img src="http://placehold.it/304x455" alt="Option 1" width="304" height="455">
-      </div>
-      
-    </form>
-    
-    <div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
+      <!-- КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ ВНУТРИ-ИГРОВОЙ СТАТИСТИКИ -->
+      <div class="component" data-name="inGameStats"></div>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  `;
 
-const game3ScreenElement = getElement(game3TemplateString);
-const form = game3ScreenElement.querySelector(`.game__content`);
-const backButtonElement = game3ScreenElement.querySelector(`.header .back`);
+  const game3Element = elementFactory.getElement(game3Template);
+  elementFactory.checkAndAddComponents(game3Element);
 
-// ОБРАБОТЧИК: клика на одном из ответов (div.game__option)
-form.addEventListener(`click`, () => {
-  showScreen(statsElement);
-});
+  const form = game3Element.querySelector(`.game__content`);
 
-// ОБРАБОТЧИК: клика по кнопке 'назад'
-backButtonElement.addEventListener(`click`, () => {
-  showScreen(greetingScreenElement);
-});
+  // ОБРАБОТЧИК: клика на одном из ответов (div.game__option)
+  form.addEventListener(`click`, (evt) => {
+    let answer = {
+      questionIndex: evt.target.dataset.questionIndex,
+      answer: `paint`
+    };
 
-export default game3ScreenElement;
+    if (gameData.checkAnswer(answer)) {
+      main.goNextQuestion();
+    } else {
+      main.goFinalStats();
+    }
+
+  });
+
+  return game3Element;
+};
+
+export default getGame3Element;

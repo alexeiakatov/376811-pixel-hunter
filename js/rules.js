@@ -1,17 +1,10 @@
-import getElement from './elementFactory.js';
-import game1ScreenElement from './game-1.js';
-import greetingScreenElement from './greeting.js';
-import showScreen from './render.js';
+import elementFactory from './elementFactory.js';
+import main from './main.js';
 
-const rulesTemplateString =
-  `<header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-  </header>
+const getRulesElement = () => {
+  const rulesTemplate = `
+  <div class="component" data-name="header" data-type="empty"></div>
+
   <div class="rules">
     <h1 class="rules__title">Правила</h1>
     <p class="rules__description">Угадай 10 раз для каждого изображения фото <img
@@ -28,37 +21,27 @@ const rulesTemplateString =
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
   </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>`;
+`;
 
-const rulesScreenElement = getElement(rulesTemplateString);
+  const rulesElement = elementFactory.getElement(rulesTemplate);
+  elementFactory.checkAndAddComponents(rulesElement);
 
-const goButtonElement = rulesScreenElement.querySelector(`.rules__button`);
-const rulesInputElement = rulesScreenElement.querySelector(`.rules__input`);
-const backButtonElement = rulesScreenElement.querySelector(`.header .back`);
+  const goButtonElement = rulesElement.querySelector(`.rules__button`);
+  const rulesInputElement = rulesElement.querySelector(`.rules__input`);
 
-goButtonElement.disabled = true;
+  goButtonElement.disabled = true;
 
-// ОБРАБОТЧИК: клика по кнопке 'GO'
-goButtonElement.addEventListener(`click`, () => {
-  showScreen(game1ScreenElement);
-});
+  // ОБРАБОТЧИК: клика по кнопке 'GO'
+  goButtonElement.addEventListener(`click`, () => {
+    main.goNextQuestion();
+  });
 
-// ОБРАБОТЧИК: события 'change' у input для имени
-rulesInputElement.addEventListener(`input`, (evt) => {
-  goButtonElement.disabled = (evt.target.value && evt.target.value.length > 0) ? false : true;
-});
+  // ОБРАБОТЧИК: события 'change' у input для имени
+  rulesInputElement.addEventListener(`input`, (evt) => {
+    goButtonElement.disabled = (evt.target.value && evt.target.value.length > 0) ? false : true;
+  });
 
-// ОБРАБОТЧИК: клика по кнопке 'назад'
-backButtonElement.addEventListener(`click`, () => {
-  showScreen(greetingScreenElement);
-});
+  return rulesElement;
+};
 
-export default rulesScreenElement;
+export default getRulesElement;

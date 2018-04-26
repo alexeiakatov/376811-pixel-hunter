@@ -1,89 +1,47 @@
-import getElement from './elementFactory.js';
-import game3ScreenElement from './game-3.js';
-import showScreen from './render.js';
-import greetingScreenElement from "./greeting";
+import elementFactory from './elementFactory.js';
+import main from './main.js';
+import gameData from './game-data.js';
 
-const game2TemplateString =
-  `<header class="header">
-    <div class="header__back">
-      <button class="back">
-        <img src="img/arrow_left.svg" width="45" height="45" alt="Back">
-        <img src="img/logo_small.svg" width="101" height="44">
-      </button>
-    </div>
-    <h1 class="game__timer">NN</h1>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="32" height="32">
-    </div>
-  </header>
+const getGame2Element = (question) => {
+  question = JSON.stringify(question);
+
+  const game2Template = `
+    <div class="component" data-name="header" data-type="info"></div>
+    <div class="game">
+      <p class="game__task">Угадай, фото или рисунок?</p>
   
-  <div class="game">
-    <p class="game__task">Угадай, фото или рисунок?</p>
-  
-    <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ -->
-    <form class="game__content  game__content--wide">
+      <!-- ФОРМА С ВАРИАНТАМИ ОТВЕТОВ - в ней д.б. 1 вариант ответа -->
+      <form class="game__content  game__content--wide">
+        <div class="component" data-name="answerOption" data-type="2" data-option-number="1" data-question=${question}></div>
+      </form>
     
-      <div class="game__option">
-        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
-        
-        <!-- ОТВЕТ №1 -->
-        <label class="game__answer  game__answer--photo">
-          <input name="question1" type="radio" value="photo">
-          <span>Фото</span>
-        </label>
-        
-        <!-- ОТВЕТ №2 -->
-        <label class="game__answer  game__answer--wide  game__answer--paint">
-          <input name="question1" type="radio" value="paint">
-          <span>Рисунок</span>
-        </label>
-        
-      </div>
-      
-    </form>
-    
-    <div class="stats">
-      <ul class="stats">
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--correct"></li>
-        <li class="stats__result stats__result--wrong"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--slow"></li>
-        <li class="stats__result stats__result--unknown"></li>
-        <li class="stats__result stats__result--fast"></li>
-        <li class="stats__result stats__result--unknown"></li>
-      </ul>
+      <!-- КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ ВНЕТРИИГРОВОЙ СТАТИСТИКИ - элементы д.б. получены из модуля inGameStats.js -->
+      <div class="component" data-name="inGameStats"></div>
     </div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`;
+  `;
 
-const game2ScreenElement = getElement(game2TemplateString);
-const form = game2ScreenElement.querySelector(`.game__content`);
-const backButtonElement = game2ScreenElement.querySelector(`.header .back`);
+  const game2Element = elementFactory.getElement(game2Template);
+  elementFactory.checkAndAddComponents(game2Element);
 
-// ОБРАБОТЧИК: события 'change' на форме с вопросами.
-form.addEventListener(`change`, () => {
-  showScreen(game3ScreenElement);
-});
+  const form = game2Element.querySelector(`.game__content`);
 
-// ОБРАБОТЧИК: клика по кнопке 'назад'
-backButtonElement.addEventListener(`click`, () => {
-  showScreen(greetingScreenElement);
-});
+  // ОБРАБОТЧИК: события 'change' на форме с вопросами.
+  form.addEventListener(`change`, (evt) => {
+    let answer = {
+      questionIndex: evt.target.dataset.questionIndex,
+      answer: evt.target.value
+    };
 
-export default game2ScreenElement;
+    if (gameData.checkAnswer(answer)) {
+      main.goNextQuestion();
+    } else {
+      main.goFinalStats();
+    }
+  });
+
+  return game2Element;
+};
+
+export default getGame2Element;
 
 
