@@ -6,9 +6,9 @@ import main from './main.js';
 
 
 const getElement = (templateString) => {
-  let templateElement = document.createElement(`template`);
-  templateElement.innerHTML = templateString;
-  return templateElement.content;
+  let element = document.createElement(`div`);
+  element.innerHTML = templateString;
+  return element;
 };
 
 const _prepareParams = (elementDataset) => {
@@ -45,7 +45,6 @@ const checkAndAddComponents = (element) => {
           headerView.backButtonClickHandler = () => {
             main.goGreetingOrRules(`greeting`);
           };
-
           _insertComponent(stub, headerView.element);
           break;
 

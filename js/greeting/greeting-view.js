@@ -28,6 +28,9 @@ export default class GreetingView extends AbstractView {
 
   render() {
     this.domElement = elementFactory.getElement(this.template);
+    if (this.domElement.querySelectorAll(`.component`).length) {
+      elementFactory.checkAndAddComponents(this.domElement);
+    }
   }
 
   bind() {
