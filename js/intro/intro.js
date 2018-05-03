@@ -1,6 +1,10 @@
 import elementFactory from './elementFactory.js';
 import main from './main.js';
 
+
+
+
+
 const getIntroElement = () => {
   const introTemplateString = `
     <div id="main" class="central__content">

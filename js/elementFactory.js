@@ -1,6 +1,9 @@
-import getHeaderElememt from './header.js';
+import HeaderView from './header/header-view.js';
 import getAnswerOptionElement from './answerOption.js';
 import stats from './stats.js';
+import gameData from './game-data.js';
+import main from './main.js';
+
 
 const getElement = (templateString) => {
   let templateElement = document.createElement(`template`);
@@ -38,7 +41,12 @@ const checkAndAddComponents = (element) => {
 
       switch (stub.dataset.name) {
         case `header`:
-          _insertComponent(stub, getHeaderElememt(...params));
+          const headerView = new HeaderView(gameData.getAllLives(), gameData.getRemainingLives(), ...params);
+          headerView.backButtonClickHandler = () => {
+            main.goGreetingOrRules(`greeting`);
+          };
+
+          _insertComponent(stub, headerView.element);
           break;
 
         case `answerOption`:

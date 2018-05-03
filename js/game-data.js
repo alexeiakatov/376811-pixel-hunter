@@ -8,6 +8,8 @@ const SAVED_LIFE_BONUS = 50;
 
 const GAME_QUESTIONS_COUNT = 10;
 const STATES_HISTORY_LENGTH = 5;
+const ALL_LIVES = 3;
+
 let currentQuestionNumber = 0;
 
 import mockStates from './mockStates.js';
@@ -54,6 +56,9 @@ const getQuestions = () => questions;
 
 // ГЕТТЕР для remainingLives
 const getRemainingLives = () => playerState.remainingLives;
+
+// ГЕТТЕР для ALL_LIVES
+const getAllLives = () => ALL_LIVES;
 
 // ГЕТТЕР для stateHistory[].
 const getStatsHistory = () => statsHistory;
@@ -207,6 +212,7 @@ export default {
   getPlayerState,
   getQuestions,
   getRemainingLives,
+  getAllLives,
   getStatsHistory,
   getStatsHistoryLength,
   clearPlayerState,

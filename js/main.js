@@ -1,31 +1,52 @@
-import showScreen from './render';
+import showScreen from './render.js';
 import utils from './utils.js';
 import gameData from './game-data.js';
 
-import getIntroElement from './intro.js';
-import getGreetingElement from "./greeting";
-import getRulesElement from "./rules";
+import IntroView from './intro/intro-view.js';
+import GreetingView from './greeting/greeting-view.js';
+import RulesView from './rules/rules-view.js';
+
 import getGame1Element from './game-1.js';
 import getGame2Element from './game-2.js';
 import getGame3Element from "./game-3";
 import stats from './stats.js';
+import elementFactory from './elementFactory.js';
 
-showScreen(getIntroElement());
 
 const GAME_TYPE_1 = 1;
 const GAME_TYPE_2 = 2;
 const GAME_TYPE_3 = 3;
 
+const introView = new IntroView();
+introView.asteriskClickHandler = () => {
+  goGreetingOrRules(`greeting`);
+};
+
+showScreen(introView.element);
+
+const greetingView = new GreetingView();
+greetingView.continueButtonClickHandler = () => {
+  goGreetingOrRules(`rules`);
+};
+
+const rulesView = new RulesView();
+rulesView.goButtonClickHandler = () => {
+  goNextQuestion();
+};
 
 // ФУНКЦИЯ: переход к greetings или к rules.
 const goGreetingOrRules = (where) => {
   switch (where) {
     case `greeting`:
-      showScreen(getGreetingElement());
+      let greetingViewElement = greetingView.element;
+      elementFactory.checkAndAddComponents(greetingViewElement);
+      console.log(greetingViewElement.querySelector('.greeting__asterisk'));
+      showScreen(greetingViewElement);
       break;
 
     case `rules`:
-      showScreen(getRulesElement());
+      elementFactory.checkAndAddComponents(rulesView.element);
+      showScreen(rulesView.element);
       break;
   }
 };
