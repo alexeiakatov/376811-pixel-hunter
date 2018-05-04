@@ -29,6 +29,7 @@ greetingView.continueButtonClickHandler = () => {
 
 const rulesView = new RulesView();
 rulesView.goButtonClickHandler = () => {
+  console.log('handler invoked.');
   goNextQuestion();
 };
 
@@ -62,85 +63,85 @@ let currentGameType = GAME_TYPE_1;
 // ФУНКЦИЯ: переход к следующему вопросу.
 const goNextQuestion = () => {
   // gameData.showState();
+  console.log('zzz');
+  let currentQuestionNumber = gameData.getCurrentQuestionNumber();
+  if (currentQuestionNumber === gameData.getGameQuestionsCount() - 2) {
+    currentGameType = GAME_TYPE_1;
+  }
 
-  // let currentQuestionNumber = gameData.getCurrentQuestionNumber();
-  // if (currentQuestionNumber === gameData.getGameQuestionsCount() - 2) {
-  //   currentGameType = GAME_TYPE_1;
-  // }
-  //
-  // if (currentQuestionNumber >= gameData.getGameQuestionsCount()) {
-  //   gameData.getPlayerState().win = true;
-  //   goFinalStats();
-  //
-  // } else {
-  //   let questions = gameData.getQuestions();
-  //
-  //   switch (currentGameType) {
-  //     case GAME_TYPE_1:
-  //       let firstIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //       let secondIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //
-  //       while (firstIndex === secondIndex) {
-  //         secondIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //       }
-  //       questions[firstIndex].index = firstIndex;
-  //       questions[secondIndex].index = secondIndex;
-  //       showScreen(getGame1Element(questions[firstIndex], questions[secondIndex]));
-  //       break;
-  //
-  //     case GAME_TYPE_2:
-  //       let index = utils.getRandomValue(0, questions.length - 1, 0);
-  //       questions[index].index = index;
-  //       showScreen(getGame2Element(questions[index]));
-  //       break;
-  //
-  //     case GAME_TYPE_3:
-  //       // выбрать случайную первую фото из массива вопросов
-  //       let photoFirstIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //       while (questions[photoFirstIndex].pictureType === `painting`) {
-  //         photoFirstIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //       }
-  //
-  //       // выбрать случайную вторую фото из массива вопросов
-  //       let photoSecondIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //       while (photoSecondIndex === photoFirstIndex || questions[photoSecondIndex].pictureType === `painting`) {
-  //         photoSecondIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //       }
-  //
-  //       // выбрать случайный рисунок из массива вопросов
-  //       let paintingIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //       while (questions[paintingIndex].pictureType === `photo`) {
-  //         paintingIndex = utils.getRandomValue(0, questions.length - 1, 0);
-  //       }
-  //
-  //       // создать случайную расстановку вопросов
-  //       let args = new Array(3);
-  //       // на первый случайный индекс из 3 записать первую фото
-  //       let index1 = utils.getRandomValue(0, 2, 0);
-  //       args[index1] = questions[photoFirstIndex];
-  //
-  //       // на второй случайный индекс из 3 записать вторую фото
-  //       let index2 = utils.getRandomValue(0, 2, 0);
-  //       while (index2 === index1) {
-  //         index2 = utils.getRandomValue(0, 2, 0);
-  //       }
-  //       args[index2] = questions[photoSecondIndex];
-  //
-  //       // на оставшееся пустое место в массиве записать рисунок
-  //       for (let i = 0; i < args.length; i++) {
-  //         if (!args[i]) {
-  //           args[i] = questions[paintingIndex];
-  //         }
-  //       }
-  //       questions[photoFirstIndex].index = photoFirstIndex;
-  //       questions[photoSecondIndex].index = photoSecondIndex;
-  //       questions[paintingIndex].index = paintingIndex;
-  //
-  //       showScreen(getGame3Element(...args));
-  //       break;
-  //   }
-  // }
-  // currentGameType = (currentGameType === GAME_TYPE_3) ? 1 : ++currentGameType;
+  if (currentQuestionNumber >= gameData.getGameQuestionsCount()) {
+    gameData.getPlayerState().win = true;
+    goFinalStats();
+
+  } else {
+    let questions = gameData.getQuestions();
+
+    switch (currentGameType) {
+      case GAME_TYPE_1:
+        let firstIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        let secondIndex = utils.getRandomValue(0, questions.length - 1, 0);
+
+        while (firstIndex === secondIndex) {
+          secondIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        }
+        questions[firstIndex].index = firstIndex;
+        questions[secondIndex].index = secondIndex;
+        showScreen(getGame1Element(questions[firstIndex], questions[secondIndex]));
+        break;
+
+      case GAME_TYPE_2:
+        let index = utils.getRandomValue(0, questions.length - 1, 0);
+        questions[index].index = index;
+        showScreen(getGame2Element(questions[index]));
+        break;
+
+      case GAME_TYPE_3:
+        // выбрать случайную первую фото из массива вопросов
+        let photoFirstIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        while (questions[photoFirstIndex].pictureType === `painting`) {
+          photoFirstIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        }
+
+        // выбрать случайную вторую фото из массива вопросов
+        let photoSecondIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        while (photoSecondIndex === photoFirstIndex || questions[photoSecondIndex].pictureType === `painting`) {
+          photoSecondIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        }
+
+        // выбрать случайный рисунок из массива вопросов
+        let paintingIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        while (questions[paintingIndex].pictureType === `photo`) {
+          paintingIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        }
+
+        // создать случайную расстановку вопросов
+        let args = new Array(3);
+        // на первый случайный индекс из 3 записать первую фото
+        let index1 = utils.getRandomValue(0, 2, 0);
+        args[index1] = questions[photoFirstIndex];
+
+        // на второй случайный индекс из 3 записать вторую фото
+        let index2 = utils.getRandomValue(0, 2, 0);
+        while (index2 === index1) {
+          index2 = utils.getRandomValue(0, 2, 0);
+        }
+        args[index2] = questions[photoSecondIndex];
+
+        // на оставшееся пустое место в массиве записать рисунок
+        for (let i = 0; i < args.length; i++) {
+          if (!args[i]) {
+            args[i] = questions[paintingIndex];
+          }
+        }
+        questions[photoFirstIndex].index = photoFirstIndex;
+        questions[photoSecondIndex].index = photoSecondIndex;
+        questions[paintingIndex].index = paintingIndex;
+
+        showScreen(getGame3Element(...args));
+        break;
+    }
+  }
+  currentGameType = (currentGameType === GAME_TYPE_3) ? 1 : ++currentGameType;
 };
 
 export default {

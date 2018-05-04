@@ -36,12 +36,12 @@ const checkAndAddComponents = (element) => {
     let params;
     // выполнить для каждого встраиваемого компонента
     for (const stub of componenStubs) {
-      // создать js-объект с аргументами из data-атрибутов встраиваемого компонента
+      // создать js-объект с аргументами из data-атрибутов тега, которым был определен встраиваемый компонент
       params = _prepareParams(stub.dataset);
 
       switch (stub.dataset.name) {
         case `header`:
-          const headerView = new HeaderView(gameData.getAllLives(), gameData.getRemainingLives(), ...params);
+          const headerView = new HeaderView(gameData, ...params);
           headerView.backButtonClickHandler = () => {
             main.goGreetingOrRules(`greeting`);
           };

@@ -1,14 +1,13 @@
 import AbstractView from '../AbstractView';
 import elementFactory from '../elementFactory.js';
-import main from '../main.js';
 
 export default class HeaderView extends AbstractView {
 
-  constructor(allLives, remainingLives, type) {
+  constructor(gameData, type) {
     super();
     if (type === `info`) {
-      this.allLives = allLives;
-      this.remainingLives = remainingLives;
+      this.allLives = gameData.getAllLives;
+      this.remainingLives = gameData.getRemainingLives;
       this.type = `info`;
     } else {
       this.type = `empty`;
@@ -67,6 +66,9 @@ export default class HeaderView extends AbstractView {
 
   render() {
     this.domElement = elementFactory.getElement(this.template);
+    if (this.domElement.querySelectorAll(`.component`).length) {
+      elementFactory.checkAndAddComponents(this.domElement);
+    }
   }
 
   bind() {

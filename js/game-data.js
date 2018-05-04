@@ -34,7 +34,7 @@ const questions = [
 // СОСТОЯНИЕ ИГРОКА
 let playerState = {
   win: null,
-  remainingLives: 3,
+  remainingLives: ALL_LIVES,
   baseScore: 0,
   fastAnswers: 0,
   slowAnswers: 0,

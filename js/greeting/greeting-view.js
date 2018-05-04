@@ -4,8 +4,9 @@ import elementFactory from '../elementFactory.js';
 
 export default class GreetingView extends AbstractView {
 
-  constructor() {
+  constructor(gameData) {
     super();
+    this.gameData = gameData;
   }
 
   get template() {

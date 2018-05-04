@@ -3,8 +3,9 @@ import elementFactory from '../elementFactory.js';
 import main from '../main.js';
 
 export default class IntroView extends AbstractView {
-  constructor() {
+  constructor(gameData) {
     super();
+    this.gameData = gameData;
   }
 
   get template() {

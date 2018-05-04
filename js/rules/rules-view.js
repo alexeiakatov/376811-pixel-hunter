@@ -4,8 +4,9 @@ import elementFactory from '../elementFactory.js';
 
 export default class RulesView extends AbstractView {
 
-  constructor() {
+  constructor(gameData) {
     super();
+    this.gameData = gameData;
   }
 
   get template() {
@@ -43,8 +44,9 @@ export default class RulesView extends AbstractView {
     this.goButtonElement.disabled = true;
 
     if (this.goButtonClickHandler) {
+      console.log('go btn attached');
       this.goButtonElement.addEventListener(`click`, this.goButtonClickHandler);
-    }
+    } else console.log('not attached');
 
     this.domElement.querySelector(`.rules__input`).addEventListener(`input`, (evt) => {
       this.goButtonElement.disabled = (evt.target.value && evt.target.value.length > 0) ? false : true;
