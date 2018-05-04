@@ -1,15 +1,15 @@
 import AbstractView from '../AbstractView';
 import elementFactory from '../elementFactory.js';
-// import main from '../main.js';
 
 export default class Game1View extends AbstractView {
-  constructor(question1, question2) {
+  constructor(gameData, question1index, question2index) {
     super();
-    this.question1 = JSON.stringify(question1);
-    this.question2 = JSON.stringify(question2);
+    this.question1index = question1index;
+    this.question2index = question2index;
+    this.answers = [];
   }
 
-  get template() {
+  get _template() {
     return `
       <div class="component" data-name="header" data-type="info"></div>
       <div class="game">
@@ -17,8 +17,8 @@ export default class Game1View extends AbstractView {
       
         <!-- ФОРМА С 2мя ВОПРОСАМИ И ВАРИАНТАМИ ОТВЕТОВ в ней д.б. 2 варианта ответа -->
         <form class="game__content">
-          <div class="component" data-name="answerOption" data-type="1" data-option-number="1" data-question=${question1}></div>    
-          <div class="component" data-name="answerOption" data-type="1" data-option-number="2" data-question=${question2}></div>    
+          <div class="component" data-name="questionView" data-game-type="1" data-question-index=${this.question1index}></div>    
+          <div class="component" data-name="questionView" data-game-type="1" data-question-index=${this.question2index}></div>    
         </form>
       
         <!-- КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ ВНУТРИ-ИГРОВОЙ СТАТИСТИКИ -->
@@ -27,17 +27,33 @@ export default class Game1View extends AbstractView {
     `;
   }
 
-  render() {
-    this.domElement = elementFactory.getElement(this.template);
-    if (this.domElement.querySelectorAll(`.component`).length) {
-      // elementFactory.checkAndAddComponents(this.domElement);
-    }
+  _render() {
+    this.domElement = elementFactory.getElement(this._template);
+    elementFactory.checkAndAddComponents(this.domElement);
   }
 
-  bind() {
-    if (this.asteriskClickHandler) {
-      this.domElement.querySelector(`.intro__asterisk`).addEventListener(`click`, this.asteriskClickHandler);
-    }
+  _bind() {
+    this.form = this.domElement.querySelector(`.game__content`);
+    this.questionInputElements = this.form.querySelectorAll(`input`);
+
+    // ОБРАБОТЧИК: события 'change' на форме. Для обработки кликов-ответов на вопросы question1 и question2.
+    this.form.addEventListener(`change`, (evt) => {
+      console.log('zzzzzz');
+      for (const inputElement of this.questionInputElements) {
+        if (inputElement.name === evt.target.name) {
+          inputElement.disabled = true;
+        }
+      }
+
+      this.answers.push({
+        questionIndex: evt.target.dataset.questionIndex,
+        answer: evt.target.value
+      });
+
+      if (this.answers.length === 2 && this.onAnswersReady) {
+        this.onAnswersReady();
+      }
+    });
   }
 
   get element() {
@@ -45,8 +61,8 @@ export default class Game1View extends AbstractView {
       return this.domElement;
     }
 
-    this.render();
-    this.bind();
+    this._render();
+    this._bind();
     return this.domElement;
   }
 }

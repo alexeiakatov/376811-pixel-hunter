@@ -29,7 +29,6 @@ greetingView.continueButtonClickHandler = () => {
 
 const rulesView = new RulesView();
 rulesView.goButtonClickHandler = () => {
-  console.log('handler invoked.');
   goNextQuestion();
 };
 
@@ -63,11 +62,8 @@ let currentGameType = GAME_TYPE_1;
 // ФУНКЦИЯ: переход к следующему вопросу.
 const goNextQuestion = () => {
   // gameData.showState();
-  console.log('zzz');
+
   let currentQuestionNumber = gameData.getCurrentQuestionNumber();
-  if (currentQuestionNumber === gameData.getGameQuestionsCount() - 2) {
-    currentGameType = GAME_TYPE_1;
-  }
 
   if (currentQuestionNumber >= gameData.getGameQuestionsCount()) {
     gameData.getPlayerState().win = true;
@@ -86,13 +82,19 @@ const goNextQuestion = () => {
         }
         questions[firstIndex].index = firstIndex;
         questions[secondIndex].index = secondIndex;
-        showScreen(getGame1Element(questions[firstIndex], questions[secondIndex]));
+        let game1View = new Game1View(gameData, firstIndex, secondIndex);
+
+        game1View.onAnswersReady = () => {
+          console.log('ANSWERS ARE READY!');
+        };
+
+        showScreen(game1View.element);
         break;
 
       case GAME_TYPE_2:
         let index = utils.getRandomValue(0, questions.length - 1, 0);
         questions[index].index = index;
-        showScreen(getGame2Element(questions[index]));
+        // showScreen(getGame2Element(questions[index]));
         break;
 
       case GAME_TYPE_3:
@@ -137,11 +139,11 @@ const goNextQuestion = () => {
         questions[photoSecondIndex].index = photoSecondIndex;
         questions[paintingIndex].index = paintingIndex;
 
-        showScreen(getGame3Element(...args));
+        // showScreen(getGame3Element(...args));
         break;
     }
   }
-  currentGameType = (currentGameType === GAME_TYPE_3) ? 1 : ++currentGameType;
+  // currentGameType = (currentGameType === GAME_TYPE_3) ? 1 : ++currentGameType;
 };
 
 export default {

@@ -1,6 +1,5 @@
 import AbstractView from '../AbstractView';
 import elementFactory from '../elementFactory.js';
-import main from '../main.js';
 
 export default class IntroView extends AbstractView {
   constructor(gameData) {
@@ -8,7 +7,7 @@ export default class IntroView extends AbstractView {
     this.gameData = gameData;
   }
 
-  get template() {
+  get _template() {
     return `
       <div id="main" class="central__content">
         <div id="intro" class="intro">
@@ -19,14 +18,12 @@ export default class IntroView extends AbstractView {
     `;
   }
 
-  render() {
-    this.domElement = elementFactory.getElement(this.template);
-    if (this.domElement.querySelectorAll(`.component`).length) {
-      elementFactory.checkAndAddComponents(this.domElement);
-    }
+  _render() {
+    this.domElement = elementFactory.getElement(this._template);
+    elementFactory.checkAndAddComponents(this.domElement);
   }
 
-  bind() {
+  _bind() {
     if (this.asteriskClickHandler) {
       this.domElement.querySelector(`.intro__asterisk`).addEventListener(`click`, this.asteriskClickHandler);
     }
@@ -37,8 +34,8 @@ export default class IntroView extends AbstractView {
       return this.domElement;
     }
 
-    this.render();
-    this.bind();
+    this._render();
+    this._bind();
     return this.domElement;
   }
 }

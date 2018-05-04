@@ -1,5 +1,5 @@
 import HeaderView from './header/header-view.js';
-import getAnswerOptionElement from './answerOption.js';
+import QuestionView from './question/question-view.js';
 import stats from './stats.js';
 import gameData from './game-data.js';
 import main from './main.js';
@@ -48,8 +48,8 @@ const checkAndAddComponents = (element) => {
           _insertComponent(stub, headerView.element);
           break;
 
-        case `answerOption`:
-          _insertComponent(stub, getAnswerOptionElement(...params));
+        case `questionView`:
+          _insertComponent(stub, new QuestionView(gameData, ...params).element);
           break;
 
         case `inGameStats`:

@@ -9,7 +9,7 @@ export default class RulesView extends AbstractView {
     this.gameData = gameData;
   }
 
-  get template() {
+  get _template() {
     return `
       <div class="component" data-name="header" data-type="empty"></div>
     
@@ -32,21 +32,19 @@ export default class RulesView extends AbstractView {
     `;
   }
 
-  render() {
-    this.domElement = elementFactory.getElement(this.template);
-    if (this.domElement.querySelectorAll(`.component`).length) {
-      elementFactory.checkAndAddComponents(this.domElement);
-    }
+  _render() {
+    this.domElement = elementFactory.getElement(this._template);
+    elementFactory.checkAndAddComponents(this.domElement);
   }
 
-  bind() {
+  _bind() {
     this.goButtonElement = this.domElement.querySelector(`.rules__button`);
+    console.log(this.domElement);
     this.goButtonElement.disabled = true;
 
     if (this.goButtonClickHandler) {
-      console.log('go btn attached');
       this.goButtonElement.addEventListener(`click`, this.goButtonClickHandler);
-    } else console.log('not attached');
+    }
 
     this.domElement.querySelector(`.rules__input`).addEventListener(`input`, (evt) => {
       this.goButtonElement.disabled = (evt.target.value && evt.target.value.length > 0) ? false : true;
@@ -58,8 +56,8 @@ export default class RulesView extends AbstractView {
       return this.domElement;
     }
 
-    this.render();
-    this.bind();
+    this._render();
+    this._bind();
     return this.domElement;
   }
 }
