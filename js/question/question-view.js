@@ -23,11 +23,11 @@ export default class QuestionView extends AbstractView {
       <div class="game__option">
         <img src="${this.imageUrl}" alt="Option 1" width="468" height="458">
         <label class="game__answer game__answer--photo">
-          <input name="question${this.questionIndex}" type="radio" value="photo" data-question-index=${this.questionIndex}>
+          <input name="question${this.questionIndex}" type="radio" value="photo" data-question-index="${this.questionIndex}">
           <span>Фото</span>
         </label>
         <label class="game__answer game__answer--paint">
-          <input name="question${this.questionIndex}" type="radio" value="paint" data-question-index=${this.questionIndex}>
+          <input name="question${this.questionIndex}" type="radio" value="paint" data-question-index="${this.questionIndex}">
           <span>Рисунок</span>
         </label>
       </div>
@@ -37,7 +37,7 @@ export default class QuestionView extends AbstractView {
   get _templateGameType3() {
     return `
       <div class="game__option" data-question-index="${this.questionIndex}">
-        <img src="${this.imageUrl}" alt="question_${this.questionIndex}" width="304" height="455">
+        <img src="${this.imageUrl}" alt="question${this.questionIndex}" width="304" height="455">
       </div>
     `;
   }
@@ -60,9 +60,6 @@ export default class QuestionView extends AbstractView {
 
     this._render();
     this._bind();
-    let el = document.createElement('template');
-    el.innerHTML = this._template;
-    return el.content;
-    // return this.domElement;
+    return this.domElement;
   }
 }

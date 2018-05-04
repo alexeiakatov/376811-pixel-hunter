@@ -8,10 +8,8 @@ export default class HeaderView extends AbstractView {
     if (type === `info`) {
       this.allLives = gameData.getAllLives();
       this.remainingLives = gameData.getRemainingLives();
-
-      console.log('all: ', this.allLives);
-      console.log('rem: ', this.remainingLives);
       this.type = `info`;
+
     } else {
       this.type = `empty`;
     }
