@@ -1,19 +1,26 @@
 import showScreen from './render.js';
 import utils from './utils.js';
-import gameData from './game-data.js';
+import gameData from './data/game-data.js';
 
 import IntroView from './intro/intro-view.js';
 import GreetingView from './greeting/greeting-view.js';
 import RulesView from './rules/rules-view.js';
 
 import Game1View from './game-1/game-1-view.js';
-import stats from './stats.js';
-import elementFactory from './elementFactory.js';
+import Game2View from './game-2/game-2-view.js';
+import Game3View from './game-3/game-3-view.js';
+
+import FinalStatsView from './stats/final-stats-view';
+
+// import stats from './stats.js';
+// import elementFactory from './elementFactory.js';
 
 
-const GAME_TYPE_1 = 1;
-const GAME_TYPE_2 = 2;
-const GAME_TYPE_3 = 3;
+const GameType = {
+  ONE: 1,
+  TWO: 2,
+  THREE: 3
+};
 
 const introView = new IntroView();
 introView.asteriskClickHandler = () => {
@@ -47,6 +54,7 @@ const goGreetingOrRules = (where) => {
 
 // ФУНКЦИЯ: переход к итоговой статистике.
 const goFinalStats = () => {
+  // gameData.calculateResultScore();
   gameData.getResultScore();
   let actualPlayerState = gameData.getPlayerState();
   let statsHistory = gameData.getStatsHistory();
@@ -54,10 +62,20 @@ const goFinalStats = () => {
   statsHistory.unshift(actualPlayerState);
   statsHistory.length = gameData.getStatsHistoryLength();
 
-  showScreen(stats.getFinalStatsElement(statsHistory));
+  showScreen(new FinalStatsView(gameData).element);
 };
 
-let currentGameType = GAME_TYPE_1;
+// ФУНКЦИЯ: колбэк для передачи в компонент - определяет действия, которые д.б. выполнены когда ответ(ы) на компоненте уже
+// сделаны пользователем.
+let onAnswerReady = (answerObjects) => {
+  if (gameData.checkAnswer(answerObjects)) {
+    goNextQuestion();
+  } else {
+    goFinalStats();
+  }
+};
+
+let currentGameType = GameType.ONE;
 
 // ФУНКЦИЯ: переход к следующему вопросу.
 const goNextQuestion = () => {
@@ -73,77 +91,87 @@ const goNextQuestion = () => {
     let questions = gameData.getQuestions();
 
     switch (currentGameType) {
-      case GAME_TYPE_1:
-        let firstIndex = utils.getRandomValue(0, questions.length - 1, 0);
-        let secondIndex = utils.getRandomValue(0, questions.length - 1, 0);
 
-        while (firstIndex === secondIndex) {
-          secondIndex = utils.getRandomValue(0, questions.length - 1, 0);
+      case GameType.ONE:
+        let firstQuestionIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        let secondQuestionIndex = utils.getRandomValue(0, questions.length - 1, 0);
+
+        while (firstQuestionIndex === secondQuestionIndex) {
+          secondQuestionIndex = utils.getRandomValue(0, questions.length - 1, 0);
         }
-        questions[firstIndex].index = firstIndex;
-        questions[secondIndex].index = secondIndex;
-        let game1View = new Game1View(gameData, firstIndex, secondIndex);
 
-        game1View.onAnswersReady = () => {
-          console.log('ANSWERS ARE READY!');
-        };
+        questions[firstQuestionIndex].index = firstQuestionIndex;
+        questions[secondQuestionIndex].index = secondQuestionIndex;
+
+        let game1View = new Game1View(gameData, firstQuestionIndex, secondQuestionIndex);
+
+        game1View.onAnswerReady = onAnswerReady;
 
         showScreen(game1View.element);
         break;
 
-      case GAME_TYPE_2:
-        let index = utils.getRandomValue(0, questions.length - 1, 0);
-        questions[index].index = index;
-        // showScreen(getGame2Element(questions[index]));
+      case GameType.TWO:
+        let questionIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        questions[questionIndex].index = questionIndex;
+        let game2View = new Game2View(gameData, questionIndex);
+
+        game2View.onAnswerReady = onAnswerReady;
+
+        showScreen(game2View.element);
         break;
 
-      case GAME_TYPE_3:
-        // выбрать случайную первую фото из массива вопросов
-        let photoFirstIndex = utils.getRandomValue(0, questions.length - 1, 0);
-        while (questions[photoFirstIndex].pictureType === `painting`) {
-          photoFirstIndex = utils.getRandomValue(0, questions.length - 1, 0);
+      case GameType.THREE:
+        // выбрать ПЕРВЫЙ вопрос из массива вопросов по random и чтоб его ответом было не рисунок, а фото.
+        let firstPhotoIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        while (questions[firstPhotoIndex].pictureType === `paint`) {
+          firstPhotoIndex = utils.getRandomValue(0, questions.length - 1, 0);
         }
+        questions[firstPhotoIndex].index = firstPhotoIndex;
 
-        // выбрать случайную вторую фото из массива вопросов
-        let photoSecondIndex = utils.getRandomValue(0, questions.length - 1, 0);
-        while (photoSecondIndex === photoFirstIndex || questions[photoSecondIndex].pictureType === `painting`) {
-          photoSecondIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        // выбрать ВТОРОЙ вопрос из массива вопросов по random и чтоб его индекс не был равным индексу первого вопроса,
+        // и так же чтоб его ответом был не рисунок, а фото.
+        let secondPhotoIndex = utils.getRandomValue(0, questions.length - 1, 0);
+        while (secondPhotoIndex === firstPhotoIndex || questions[secondPhotoIndex].pictureType === `paint`) {
+          secondPhotoIndex = utils.getRandomValue(0, questions.length - 1, 0);
         }
+        questions[secondPhotoIndex].index = secondPhotoIndex;
 
-        // выбрать случайный рисунок из массива вопросов
+        // выбрать ТРЕТИЙ вопрос из массива вопросов по random и чтоб его ответом был рисунок а НЕ фото.
         let paintingIndex = utils.getRandomValue(0, questions.length - 1, 0);
         while (questions[paintingIndex].pictureType === `photo`) {
           paintingIndex = utils.getRandomValue(0, questions.length - 1, 0);
         }
+        questions[paintingIndex].index = paintingIndex;
 
-        // создать случайную расстановку вопросов
+        // расставить индексы вопросов в массиве в случайном порядке
         let args = new Array(3);
-        // на первый случайный индекс из 3 записать первую фото
+        // на первый случайный индекс из 3ех возможных - записать первую фото
         let index1 = utils.getRandomValue(0, 2, 0);
-        args[index1] = questions[photoFirstIndex];
+        args[index1] = firstPhotoIndex;
 
-        // на второй случайный индекс из 3 записать вторую фото
+        // на второй случайный индекс из 3ех возможных - записать вторую фото
         let index2 = utils.getRandomValue(0, 2, 0);
         while (index2 === index1) {
           index2 = utils.getRandomValue(0, 2, 0);
         }
-        args[index2] = questions[photoSecondIndex];
+        args[index2] = secondPhotoIndex;
 
         // на оставшееся пустое место в массиве записать рисунок
         for (let i = 0; i < args.length; i++) {
           if (!args[i]) {
-            args[i] = questions[paintingIndex];
+            args[i] = paintingIndex;
           }
         }
-        questions[photoFirstIndex].index = photoFirstIndex;
-        questions[photoSecondIndex].index = photoSecondIndex;
-        questions[paintingIndex].index = paintingIndex;
 
-        // showScreen(getGame3Element(...args));
+        let game3View = new Game3View(gameData, ...args);
+
+        game3View.onAnswerReady = onAnswerReady;
+
+        showScreen(game3View.element);
         break;
     }
   }
-  // currentGameType = (currentGameType === GAME_TYPE_3) ? 1 : ++currentGameType;
+  currentGameType = (currentGameType === GameType.THREE) ? 1 : ++currentGameType;
 };
 
 export default {

@@ -1,3 +1,5 @@
+import mockStates from '../mockStates.js';
+
 const FAST_ANSWER_LIMIT = 10000;
 const SLOW_ANSWER_LIMIT = 20000;
 
@@ -12,7 +14,6 @@ const ALL_LIVES = 3;
 
 let currentQuestionNumber = 0;
 
-import mockStates from './mockStates.js';
 const statsHistory = [
   mockStates.isFail,
   mockStates.savedLives,
@@ -23,7 +24,7 @@ const statsHistory = [
 
 // ВОПРОСЫ
 const questions = [
-  {imageUrl: `https://k42.kn3.net/CF42609C8.jpg`, pictureType: `paint`}, // девушка держит голову на подбородке
+  {imageUrl: `https://k42.kn3.net/CF42609C8.jpg`, pictureType: `paint`}, // девушка держит голову подбородком на ладонях
   {imageUrl: `http://i.imgur.com/1KegWPz.jpg`, pictureType: `photo`}, // музыкант с гитарой
   {imageUrl: `https://k42.kn3.net/D2F0370D6.jpg`, pictureType: `paint`}, // баран
   {imageUrl: `http://i.imgur.com/DKR1HtB.jpg`, pictureType: `photo`}, // сосна в снегу
@@ -91,10 +92,18 @@ const showState = () => {
 };
 
 // ФУНКЦИЯ: проверить полученные ответы на вопрос.
-// { object } answer
-const checkAnswer = (answer) => {
-  let correctAnswer = questions[parseInt(answer.questionIndex, 10)].pictureType;
-  let isCorrect = answer.answer === correctAnswer;
+// @param { Array } answers
+// @returns { boolean } - true - если жизни еще есть и можно продолжать игру, false - если жизней больше нет и продолжать игру нельзя.
+const checkAnswer = (answers) => {
+  let isCorrect = true;
+
+  for (const answer of answers) {
+    let correctAnswer = questions[parseInt(answer.questionIndex, 10)].pictureType;
+    if (answer.answer !== correctAnswer) {
+      isCorrect = false;
+      break;
+    }
+  }
 
   playerState.remainingLives = isCorrect ? playerState.remainingLives : --playerState.remainingLives;
 

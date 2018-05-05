@@ -1,12 +1,9 @@
 import AbstractView from '../AbstractView';
 import elementFactory from '../elementFactory.js';
-// import main from '../main.js';
 
 export default class GreetingView extends AbstractView {
-
   constructor(gameData) {
     super();
-    this.gameData = gameData;
   }
 
   get template() {
@@ -29,9 +26,7 @@ export default class GreetingView extends AbstractView {
 
   render() {
     this.domElement = elementFactory.getElement(this.template);
-    if (this.domElement.querySelectorAll(`.component`).length) {
-      elementFactory.checkAndAddComponents(this.domElement);
-    }
+    elementFactory.checkAndAddComponents(this.domElement);
   }
 
   bind() {

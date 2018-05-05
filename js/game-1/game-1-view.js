@@ -22,7 +22,7 @@ export default class Game1View extends AbstractView {
         </form>
       
         <!-- КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ ВНУТРИ-ИГРОВОЙ СТАТИСТИКИ -->
-        <div class="component" data-name="inGameStats"></div>
+        <div class="component" data-name="inGameStatsView"></div>
       </div>
     `;
   }
@@ -38,7 +38,6 @@ export default class Game1View extends AbstractView {
 
     // ОБРАБОТЧИК: события 'change' на форме. Для обработки кликов-ответов на вопросы question1 и question2.
     this.form.addEventListener(`change`, (evt) => {
-      console.log('zzzzzz');
       for (const inputElement of this.questionInputElements) {
         if (inputElement.name === evt.target.name) {
           inputElement.disabled = true;
@@ -50,11 +49,13 @@ export default class Game1View extends AbstractView {
         answer: evt.target.value
       });
 
-      if (this.answers.length === 2 && this.onAnswersReady) {
-        this.onAnswersReady();
+      if (this.answers.length === 2) {
+        this.onAnswerReady(this.answers);
       }
     });
   }
+
+  onAnswerReady() {}
 
   get element() {
     if (this.domElement) {

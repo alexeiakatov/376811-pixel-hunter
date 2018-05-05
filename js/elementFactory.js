@@ -1,7 +1,8 @@
 import HeaderView from './header/header-view.js';
 import QuestionView from './question/question-view.js';
-import stats from './stats.js';
-import gameData from './game-data.js';
+import InGameStatsView from './stats/in-game-stats-view.js';
+
+import gameData from './data/game-data.js';
 import main from './main.js';
 
 
@@ -52,18 +53,18 @@ const checkAndAddComponents = (element) => {
           _insertComponent(stub, new QuestionView(gameData, ...params).element);
           break;
 
-        case `inGameStats`:
-          let inGameStatsElement = stats.getInGameStatsElement(...params);
-          _insertComponent(stub, inGameStatsElement);
+        case `inGameStatsView`:
+          let inGameStatsView = new InGameStatsView(gameData, ...params);
+          _insertComponent(stub, inGameStatsView.element);
           break;
 
         case `scoreDescription`:
-          let scoreDescriptionElement = stats.getScoreDescriptionElement(...params);
-          _insertComponent(stub, scoreDescriptionElement);
+          // let scoreDescriptionElement = stats.getScoreDescriptionElement(...params);
+          // _insertComponent(stub, scoreDescriptionElement);
           break;
 
-        case `fullStats`:
-          _insertComponent(stub, stats.getFullStatsElement(...params));
+        case `fullStatsView`:
+          // _insertComponent(stub, stats.getFullStatsElement(...params));
           break;
       }
     }

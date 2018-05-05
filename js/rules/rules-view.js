@@ -1,12 +1,9 @@
 import AbstractView from '../AbstractView';
 import elementFactory from '../elementFactory.js';
-// import main from '../main.js';
 
 export default class RulesView extends AbstractView {
-
   constructor(gameData) {
     super();
-    this.gameData = gameData;
   }
 
   get _template() {
@@ -39,7 +36,6 @@ export default class RulesView extends AbstractView {
 
   _bind() {
     this.goButtonElement = this.domElement.querySelector(`.rules__button`);
-    console.log(this.domElement);
     this.goButtonElement.disabled = true;
 
     if (this.goButtonClickHandler) {

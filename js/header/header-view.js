@@ -2,7 +2,6 @@ import AbstractView from '../AbstractView';
 import elementFactory from '../elementFactory.js';
 
 export default class HeaderView extends AbstractView {
-
   constructor(gameData, type) {
     super();
     if (type === `info`) {
