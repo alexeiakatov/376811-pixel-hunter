@@ -1,7 +1,7 @@
 import mockStates from '../mockStates.js';
 
-const FAST_ANSWER_LIMIT = 10000;
-const SLOW_ANSWER_LIMIT = 20000;
+// const FAST_ANSWER_LIMIT = 10000;
+// const SLOW_ANSWER_LIMIT = 20000;
 
 const CORRECT_ANSWER_SCORE = 100;
 const FAST_ANSWER_BONUS = 50;

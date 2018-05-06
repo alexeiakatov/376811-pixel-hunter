@@ -2,7 +2,7 @@ import AbstractView from '../AbstractView';
 import elementFactory from '../elementFactory.js';
 
 export default class RulesView extends AbstractView {
-  constructor(gameData) {
+  constructor() {
     super();
   }
 
