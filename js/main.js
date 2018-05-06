@@ -12,10 +12,6 @@ import Game3View from './game-3/game-3-view.js';
 
 import FinalStatsView from './stats/final-stats-view';
 
-// import stats from './stats.js';
-// import elementFactory from './elementFactory.js';
-
-
 const GameType = {
   ONE: 1,
   TWO: 2,
@@ -54,13 +50,15 @@ const goGreetingOrRules = (where) => {
 
 // ФУНКЦИЯ: переход к итоговой статистике.
 const goFinalStats = () => {
-  // gameData.calculateResultScore();
-  gameData.getResultScore();
-  let actualPlayerState = gameData.getPlayerState();
-  let statsHistory = gameData.getStatsHistory();
+  gameData.calculateFinalStats();
 
-  statsHistory.unshift(actualPlayerState);
-  statsHistory.length = gameData.getStatsHistoryLength();
+  let statsHistory = gameData.getStatsHistory();
+  statsHistory.unshift(gameData.getPlayerState());
+
+  let limit = gameData.getStatsHistoryLengthLimit();
+  statsHistory.length = statsHistory.length > limit ? limit : statsHistory.length;
+
+  gameData.clearPlayerState();
 
   showScreen(new FinalStatsView(gameData).element);
 };

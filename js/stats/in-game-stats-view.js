@@ -6,7 +6,7 @@ export default class InGameStatsView extends AbstractView {
   // Если historyIndex не передан - значит компонент должен отрисовывать внутриигровую статистику и сам берет данные из gameData.
   constructor(gameData, historyIndex) {
     super();
-    this.playerAnswers = historyIndex ? gameData.getStatsHistory()[historyIndex] : gameData.getPlayerAnswers();
+    this.playerAnswers = historyIndex ? gameData.getStateFromHistory(historyIndex).answers : gameData.getPlayerAnswers();
     this.allQuestionsCount = gameData.getGameQuestionsCount();
   }
 

@@ -1,6 +1,9 @@
 import HeaderView from './header/header-view.js';
 import QuestionView from './question/question-view.js';
+
 import InGameStatsView from './stats/in-game-stats-view.js';
+import FullStatsView from './stats/full-stats-view.js';
+import StatsDescriptionView from './stats/stats-description-view.js';
 
 import gameData from './data/game-data.js';
 import main from './main.js';
@@ -58,13 +61,14 @@ const checkAndAddComponents = (element) => {
           _insertComponent(stub, inGameStatsView.element);
           break;
 
-        case `scoreDescription`:
-          // let scoreDescriptionElement = stats.getScoreDescriptionElement(...params);
-          // _insertComponent(stub, scoreDescriptionElement);
+        case `statsDescriptionView`:
+          let statsDescriptionView = new StatsDescriptionView(gameData, ...params);
+          _insertComponent(stub, statsDescriptionView.element);
           break;
 
         case `fullStatsView`:
-          // _insertComponent(stub, stats.getFullStatsElement(...params));
+          let fullStatsView = new FullStatsView(gameData, ...params);
+          _insertComponent(stub, fullStatsView.element);
           break;
       }
     }

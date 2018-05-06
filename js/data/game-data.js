@@ -9,17 +9,17 @@ const SLOW_ANSWER_PENNALTY = -50;
 const SAVED_LIFE_BONUS = 50;
 
 const GAME_QUESTIONS_COUNT = 10;
-const STATES_HISTORY_LENGTH = 5;
+const STATES_HISTORY_LENGTH = 3;
 const ALL_LIVES = 3;
 
 let currentQuestionNumber = 0;
 
 const statsHistory = [
-  mockStates.isFail,
-  mockStates.savedLives,
-  mockStates.notAnswered,
-  mockStates.slowAnswers,
-  mockStates.fastAnswers
+  mockStates.isFail
+  // mockStates.savedLives,
+  // mockStates.notAnswered,
+  // mockStates.slowAnswers,
+  // mockStates.fastAnswers
 ];
 
 // ВОПРОСЫ
@@ -36,9 +36,12 @@ const questions = [
 let playerState = {
   win: null,
   remainingLives: ALL_LIVES,
+  savedLivesBonus: 0,
   baseScore: 0,
   fastAnswers: 0,
+  fastAnswersBonus: 0,
   slowAnswers: 0,
+  slowAnswersPennalty: 0,
   totalScore: 0,
   answers: []
 };
@@ -65,7 +68,12 @@ const getAllLives = () => ALL_LIVES;
 const getStatsHistory = () => statsHistory;
 
 // ГЕТТЕР для STATES_HISTORY_LENGTH.
-const getStatsHistoryLength = () => STATES_HISTORY_LENGTH;
+const getStatsHistoryLengthLimit = () => STATES_HISTORY_LENGTH;
+
+// ГЕТТЕР для получения состояния из истории по индексу
+const getStateFromHistory = (index) => {
+  return statsHistory[index];
+};
 
 // ГЕТТЕР И СЕТТЕР для currentQuestionNumber
 const getCurrentQuestionNumber = () => currentQuestionNumber;
@@ -128,51 +136,55 @@ const checkAnswer = (answers) => {
 const clearPlayerState = () => {
   playerState = {
     win: null,
-    remainingLives: 3,
+    remainingLives: ALL_LIVES,
+    savedLivesBonus: 0,
     baseScore: 0,
     fastAnswers: 0,
+    fastAnswersBonus: 0,
     slowAnswers: 0,
+    slowAnswersPennalty: 0,
     totalScore: 0,
     answers: []
   };
   currentQuestionNumber = 0;
 };
 // ФУНКЦИЯ: получить итоговый результат игры.
-const getResultScore = (answers, remainingLives) => {
-  let currentAnswers = answers || playerState.answers;
-  let currentPlayerState = !answers ? playerState : {
-    win: null,
-    remainingLives,
-    baseScore: 0,
-    fastAnswers: 0,
-    slowAnswers: 0,
-    totalScore: 0,
-    answers: []
-  };
+const getResultScore = () => {
+  return (playerState.win && playerState.totalScore > 0) ? playerState.totalScore : -1;
+};
 
-  if (currentAnswers.length < 10) {
-    return -1;
+let calculateFinalStats = function () {
+  if (playerState.answers.length < GAME_QUESTIONS_COUNT) {
+    // вернет false, если вычисление итоговой статистике не было выполнено. Возникает когда количество ответов меньше чем
+    // определено в настройках игры (эта ситуация может возникнуть, если игрок проиграл).
+    return false;
   }
 
-  for (const value of currentAnswers) {
-    if (value.isCorrect) {
-      currentPlayerState.baseScore += CORRECT_ANSWER_SCORE;
-      currentPlayerState.totalScore += CORRECT_ANSWER_SCORE;
+  for (const answer of playerState.answers) {
+    if (answer.isCorrect) {
+      playerState.baseScore += CORRECT_ANSWER_SCORE;
+      playerState.totalScore += CORRECT_ANSWER_SCORE;
 
-      if (value.time < FAST_ANSWER_LIMIT) {
-        currentPlayerState.totalScore += FAST_ANSWER_BONUS;
-        currentPlayerState.fastAnswers++;
+      if (answer.speed === `fast`) {
+        playerState.totalScore += FAST_ANSWER_BONUS;
+        playerState.fastAnswersBonus += FAST_ANSWER_BONUS;
+        playerState.fastAnswers++;
 
-      } else if (value.time > SLOW_ANSWER_LIMIT) {
-        currentPlayerState.totalScore += SLOW_ANSWER_PENNALTY;
-        currentPlayerState.slowAnswers++;
+      } else if (answer.speed === `slow`) {
+        playerState.totalScore += SLOW_ANSWER_PENNALTY;
+        playerState.slowAnswersPennalty += SLOW_ANSWER_PENNALTY;
+        playerState.slowAnswers++;
       }
     }
   }
 
-  currentPlayerState.totalScore += currentPlayerState.remainingLives > 0 ? SAVED_LIFE_BONUS * currentPlayerState.remainingLives : 0;
-  return currentPlayerState.totalScore;
+  playerState.savedLivesBonus = playerState.remainingLives > 0 ? SAVED_LIFE_BONUS * playerState.remainingLives : 0;
+  playerState.totalScore += playerState.savedLivesBonus;
+
+  // вернет true, если высичление итоговой статистики было выполнено
+  return true;
 };
+
 
 // ТАЙМЕР
 const getTimer = (workPeriod) => {
@@ -223,9 +235,11 @@ export default {
   getRemainingLives,
   getAllLives,
   getStatsHistory,
-  getStatsHistoryLength,
+  getStatsHistoryLengthLimit,
   clearPlayerState,
   showState,
   getCurrentQuestionNumber,
-  setCurrentQuestionNumber
+  setCurrentQuestionNumber,
+  calculateFinalStats,
+  getStateFromHistory
 };

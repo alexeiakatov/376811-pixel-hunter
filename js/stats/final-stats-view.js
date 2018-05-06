@@ -5,17 +5,17 @@ export default class FinalStatsView extends AbstractView {
 
   constructor(gameData) {
     super();
-    this.historyPlayerStates = gameData.getStatsHistory();
+    this.historyLength = gameData.getStatsHistory().length;
   }
 
   get _template() {
     let template = ``;
-    let playerState;
-    for (let i = 0; i < this.historyPlayerStates.length; i++) {
+    for (let i = 0; i < this.historyLength; i++) {
       template += `
       <div class="component" data-name="fullStatsView" 
-                             data-history-state-index=${playerState}
+                             data-history-state-index=${i}
                              data-number="${i + 1}">
+        stub for fullStatsView component 
       </div>
     `;
     }
